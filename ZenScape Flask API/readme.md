@@ -4,14 +4,6 @@
 
 An API that interfaces the pulse sensor with the ZenScape Unity Project.
 
-## Installation
-
-3. Install dependencies using pip:
-
-    ```
-    pip install -r requirements.txt
-    ```
-
 ## Usage
 
 1. Create a virtual environment:
@@ -29,11 +21,12 @@ An API that interfaces the pulse sensor with the ZenScape Unity Project.
     pip install -r requirements.txt
     ```
 
-4. Run the Flask Server in the virtual environment:
+4. Run the Flask Server on the local network:
     ```
-    flask run
+    flask run --host=0.0.0.0
     ```
 
 5. Access the API endpoints:
 
-    - Pulse data endpoint: `http://localhost:5000/pulse`
+    - Pulse data endpoint (local): `http://localhost:5000/pulse`
+    - Pulse data endpoint from other devices use the ip address of the pc hosting: for example http://192.168.0.17:5000/'

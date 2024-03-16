@@ -26,5 +26,4 @@ def home():
     return "The backend is running for ZenScape!"
 
 if __name__ == '__main__':
-    # Run the Flask application
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True) # allow access from devices on network with IP address: (Sadies ip address is 192.168.0.17)
