@@ -18,7 +18,7 @@ def get_pulse_data():
         pulse = int(ser.readline().decode().strip())
         return jsonify({'pulse_data': pulse})
     except Exception as e:
-        return jsonify({'An error occured': e})
+        return jsonify({'An error occured': str(e)})
   
 
 @app.route('/', methods=['GET'])
