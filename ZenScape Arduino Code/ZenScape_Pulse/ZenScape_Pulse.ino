@@ -2,7 +2,7 @@
 
 const int PulseWire = 0;
 const int LED = LED_BUILTIN;
-int Threshold = 825;
+int Threshold = 500;
 
 PulseSensorPlayground pulseSensor;
 
@@ -14,10 +14,7 @@ void setup() {
   pulseSensor.analogInput(PulseWire);
   pulseSensor.blinkOnPulse(LED);
   pulseSensor.setThreshold(Threshold);
-
-  if (pulseSensor.begin()) {
-    Serial.println("PulseSensor object created!");
-  }
+  pulseSensor.begin();
 }
 
 void loop() {
