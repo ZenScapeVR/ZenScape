@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/VR Scene.unity
     guid: 24eed4f41d88e754a899ffb32d645ed2
   - enabled: 1
-    path: Assets/Office Scene.unity
+    path: Assets/Scenes/Main Menu.unity
+    guid: dfe553ccfd06c384fb4d7b12455dbdb2
+  - enabled: 1
+    path: Assets/Scenes/Office Scene.unity
     guid: aee543eca5a58f549a5325ad5bd6fbbe
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8fccb80e6c9a84389a75f2c1ed4d786d, type: 2}
