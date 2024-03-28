@@ -359,8 +359,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_ThrowVelocityScale: 1.1
-  m_ThrowAngularVelocityScale: 1
+  m_ThrowVelocityScale: 1
+  m_ThrowAngularVelocityScale: 1.2
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 0
   m_AttachPointCompatibilityMode: 0
@@ -630,8 +630,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_ThrowVelocityScale: 1.1
-  m_ThrowAngularVelocityScale: 1
+  m_ThrowVelocityScale: 1
+  m_ThrowAngularVelocityScale: 1.2
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 0
   m_AttachPointCompatibilityMode: 0
@@ -917,8 +917,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_ThrowVelocityScale: 1.1
-  m_ThrowAngularVelocityScale: 1
+  m_ThrowVelocityScale: 1
+  m_ThrowAngularVelocityScale: 1.2
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 0
   m_AttachPointCompatibilityMode: 0
@@ -1243,8 +1243,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_ThrowVelocityScale: 1.1
-  m_ThrowAngularVelocityScale: 1
+  m_ThrowVelocityScale: 1
+  m_ThrowAngularVelocityScale: 1.2
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 0
   m_AttachPointCompatibilityMode: 0
@@ -7797,11 +7797,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5034172546718372737, guid: ad072b29b4546c942a74657337ad059c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.801
+      value: 3.827
       objectReference: {fileID: 0}
     - target: {fileID: 5034172546718372737, guid: ad072b29b4546c942a74657337ad059c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.046
+      value: 0.703
       objectReference: {fileID: 0}
     - target: {fileID: 5034172546718372737, guid: ad072b29b4546c942a74657337ad059c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7835,9 +7835,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5034172546718372738, guid: ad072b29b4546c942a74657337ad059c, type: 3}
+      propertyPath: m_Height
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034172546718372738, guid: ad072b29b4546c942a74657337ad059c, type: 3}
+      propertyPath: m_Radius
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034172546718372738, guid: ad072b29b4546c942a74657337ad059c, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034172546718372738, guid: ad072b29b4546c942a74657337ad059c, type: 3}
+      propertyPath: m_SlopeLimit
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 5034172546718372863, guid: ad072b29b4546c942a74657337ad059c, type: 3}
       propertyPath: m_Name
       value: XR Rig
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034172546849146671, guid: ad072b29b4546c942a74657337ad059c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.702
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad072b29b4546c942a74657337ad059c, type: 3}
