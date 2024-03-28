@@ -15,12 +15,13 @@ log_file_path = './pulseLog.log'
 # Function to read the most recent pulse from the log file and delete the line
 def get_most_recent_pulse():
     pulse = None
-    with open(log_file_path, 'r+') as file:
+    with open(log_file_path, 'r') as file:
         lines = file.readlines()
         if lines:
-            pulse = int(lines[-1].strip())
-            file.seek(0)
-            file.truncate()  # Truncate the file to clear its contents
+            try:
+                pulse = int(lines[-1].strip())
+            except Exception as e:
+                exception = e
     return pulse
 
 # Function to read pulse history from Firebase

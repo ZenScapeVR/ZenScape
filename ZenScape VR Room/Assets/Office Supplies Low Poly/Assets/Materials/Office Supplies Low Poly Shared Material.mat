@@ -8,13 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Office Supplies Low Poly Shared Material
-  m_Shader: {fileID: 4800000, guid: 0e9d5a909a1f7e84882a534d0d11e49f, type: 3}
+  m_Shader: {fileID: 4800000, guid: ee7e4c9a5f6364b688a332c67fc32cca, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -35,7 +36,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClearCoatMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -152,16 +161,26 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_8A2B8817: 0
+    - _AlphaClip: 0
     - _BASE_COLOR_WEIGHT: 1
     - _BUMP_MAP_STRENGTH: 0.3
+    - _Blend: 0
     - _BumpScale: 1
+    - _ClearCoat: 0
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 1
+    - _Cull: 2
     - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EMISSION_WEIGHT: 1
     - _EdgeLength: 15
+    - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.758
+    - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _HeightDisplacement: 0
     - _METALNESS: 0
@@ -171,16 +190,24 @@ Material:
     - _NormalScale: 1
     - _OPACITY: 1
     - _OcclusionStrength: 1
+    - _OpacityThreshold: 0
     - _Parallax: 0.02
+    - _QueueOffset: 0
     - _REFLECTIONS_IOR: 1.52
     - _REFLECTIONS_ROUGHNESS: 1
     - _REFLECTIONS_WEIGHT: 1
+    - _ReceiveShadows: 1
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 0
+    - _Shininess: 0
+    - _Smoothness: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessStrength: 1
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Surface: 0
     - _TRANSPARENCY: 0
     - _Tile: 1
     - _UVSec: 0
@@ -191,10 +218,12 @@ Material:
     - _UseNormalMap: 0
     - _UseRoughnessMap: 0
     - _WireThickness: 100
+    - _WorkflowMode: 1
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.37121755, g: 0.8113208, b: 0.75937957, a: 1}
     - _Color: {r: 0.6862745, g: 0.20000002, b: 0.20000002, a: 1}
     - _ColorTint: {r: 1, g: 1, b: 1, a: 0}
     - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
