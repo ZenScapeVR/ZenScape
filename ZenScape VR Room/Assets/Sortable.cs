@@ -11,8 +11,6 @@ public class Sortable : MonoBehaviour
     // Property to access the chosen name
     public string ChosenName { get; private set; }
 
-    
-    
     private Vector3 originalPosition;
     private Quaternion originalRotation;
 

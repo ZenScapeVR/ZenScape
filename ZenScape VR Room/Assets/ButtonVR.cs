@@ -10,14 +10,21 @@ public class ButtonVR : MonoBehaviour
     public UnityEvent onPress;
     public UnityEvent onRelease;
     GameObject presser;
-    AudioSource sound;
+    AudioSource audioSource;
+ 	public AudioClip click;
+
     private bool isPressed;
 
     public string sceneToLoad; // Name of the scene to load
 
     void Start()
     {
-        sound = GetComponent<AudioSource>();
+ 		audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
         isPressed = false;
     }
 
@@ -27,11 +34,9 @@ public class ButtonVR : MonoBehaviour
         {
             isPressed = true;
             presser = other.gameObject;
-            button.transform.Translate(Vector3.down * 0.03f); // Adjust the button press depth as needed
+            button.transform.Translate(Vector3.down * 0.015f); // Adjust the button press depth as needed
             onPress.Invoke();
-            if (sound != null)
-                sound.Play();
-
+            PlaySound(click);
             // Load the next scene after a delay
             StartCoroutine(LoadNextScene());
         }
@@ -54,5 +59,14 @@ public class ButtonVR : MonoBehaviour
 
         // Load the next scene
         SceneManager.LoadScene(sceneToLoad);
+    }
+
+	private void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
     }
 }
