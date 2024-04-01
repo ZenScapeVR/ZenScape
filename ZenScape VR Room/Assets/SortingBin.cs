@@ -44,6 +44,7 @@ public class SortingBin : MonoBehaviour
         {
             // Provide feedback for incorrect sorting
             PlaySound(incorrectSound);
+            sortable.ResetPosition();
             if (sortingGameManager != null)
             {
                 sortingGameManager.BadSort();

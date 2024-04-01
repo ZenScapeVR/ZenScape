@@ -31,6 +31,7 @@ public class SortingGameManager : MonoBehaviour
     // Called when a bad sort is made
     public void BadSort()
     {
+        
         incorrect++;
         attempts++;
         UpdateMetrics();
