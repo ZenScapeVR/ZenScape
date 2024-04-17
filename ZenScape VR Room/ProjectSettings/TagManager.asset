@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CoffeePot
+  - CoffeeMaker
+  - CoffeeMug
+  - Hands
+  - Head
+  - XRrig
   layers:
   - Default
   - TransparentFX
