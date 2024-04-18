@@ -35,34 +35,34 @@ public class CoffeeMugProperties : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Head")
-        {
-            Material material = gameObject.GetComponent<Renderer>().sharedMaterial;
-            string mugColor = material.name;
-            Debug.Log($"mug material {material} is the color {mugColor}");
-            switch (mugColor)
-            {
-                case "RedDark":
-                    Debug.Log("Coffee is hot.");
-                    status = 2;
-                    Destroy(gameObject);
-                    break;
-                case "GreenDark":
-                    Debug.Log("Coffee is perfect.");
-                    status = 1;
-                    Destroy(gameObject);
-                    break;
-                case "Blue":
-                    Debug.Log("Coffee is cold.");
-                    status = 2;
-                    Destroy(gameObject);
-                    break;
-                case "Grey":
-                    Debug.Log("Mug is empty.");
-                    status = 0;
-                    break;
-            }
-        }
+        //if (other.gameObject.tag == "Head")
+        //{
+        //    Material material = gameObject.GetComponent<Renderer>().sharedMaterial;
+        //    string mugColor = material.name;
+        //    Debug.Log($"mug material {material} is the color {mugColor}");
+        //    switch (mugColor)
+        //    {
+        //        case "RedDark":
+        //            Debug.Log("Coffee is hot.");
+        //            status = 2;
+        //            Destroy(gameObject);
+        //            break;
+        //        case "GreenDark":
+        //            Debug.Log("Coffee is perfect.");
+        //            status = 1;
+        //            Destroy(gameObject);
+        //            break;
+        //        case "Blue":
+        //            Debug.Log("Coffee is cold.");
+        //            status = 2;
+        //            Destroy(gameObject);
+        //            break;
+        //        case "Grey":
+        //            Debug.Log("Mug is empty.");
+        //            status = 0;
+        //            break;
+        //    }
+        //}
     }
 
     public void PourCoffee()
