@@ -10,6 +10,7 @@ TagManager:
   - Hands
   - Head
   - XRrig
+  - Test
   layers:
   - Default
   - TransparentFX

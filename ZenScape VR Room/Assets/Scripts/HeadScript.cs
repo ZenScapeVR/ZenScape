@@ -10,6 +10,9 @@ public class HeadScript : MonoBehaviour
     public int status;
     private int lastStatus;
     public TextMeshPro metrics;
+    public AudioSource audioSource;
+    public AudioClip success;
+    public AudioClip failure;
     public int coffeesDrank = 0;
     public int coffeesSpilt = 0;
 
@@ -71,16 +74,19 @@ public class HeadScript : MonoBehaviour
             {
                 case "RedDark":
                     Debug.Log("Coffee is hot.");
+                    PlaySound(failure);
                     SpiltCoffee();
                     Destroy(other.gameObject);
                     break;
                 case "GreenDark":
                     Debug.Log("Coffee is perfect.");
+                    PlaySound(success);
                     DrankCoffee();
                     Destroy(other.gameObject);
                     break;
                 case "Blue":
                     Debug.Log("Coffee is cold.");
+                    PlaySound(failure);
                     SpiltCoffee();
                     Destroy(other.gameObject);
                     break;
@@ -88,6 +94,15 @@ public class HeadScript : MonoBehaviour
                     Debug.Log("Mug is empty.");
                     break;
             }
+        }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.clip = clip;
+            audioSource.Play();
         }
     }
 }
