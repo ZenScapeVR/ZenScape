@@ -7,7 +7,21 @@ public class DistractionSelection : MonoBehaviour
 {
     public int Difficulty = 0;
     public float HearRate = 0f;
-    public string SelectedDistration = null;
+    public GameObject SelectedDistraction;
+
+    // low
+    public GameObject FlickeringLights;
+    public GameObject QuietConversation;
+    public GameObject FanBuzzing;
+    // medium
+    public GameObject AlarmClock;
+    public GameObject MonitorStatic;
+    public GameObject Crowd;
+    // high
+    public GameObject HeartBeat;
+    public GameObject FireAlarm;
+    public GameObject Earthquake;
+
     private enum DIFFICULTY_LEVEL
     {
         EASY,
@@ -47,20 +61,20 @@ public class DistractionSelection : MonoBehaviour
     private void SelectDistraction(DIFFICULTY_LEVEL level)
     {
         System.Random rand = new System.Random();
-        string selectedDistraction = "null";
+        GameObject selectedDistraction = null;
         int selectedNum;
 
         // need to shange string in dictionary to game object
-        Dictionary<int, string> distractions = new Dictionary<int, string>() {
-            { 1, "quiet_conversation" },
-            { 2, "fan_buzzing" },
-            { 3, "lights_flickering" },
-            { 4, "alarm_clock" },
-            { 5, "monitor_static" },
-            { 6, "crowd_people" },
-            { 7, "fire_alarm" },
-            { 8, "earthquake" },
-            { 9, "heartbeat" },
+        Dictionary<int, GameObject> distractions = new Dictionary<int, GameObject>() {
+            { 1, QuietConversation },
+            { 2, FlickeringLights },
+            { 3, FanBuzzing },
+            { 4, AlarmClock },
+            { 5, MonitorStatic },
+            { 6, Crowd },
+            { 7, FireAlarm },
+            { 8, HeartBeat },
+            { 9, Earthquake },
         };
 
         // select random task based on difficulty level
@@ -86,6 +100,6 @@ public class DistractionSelection : MonoBehaviour
                 break;
         }
 
-        SelectedDistration = selectedDistraction;
+        SelectedDistraction = selectedDistraction;
     }
 }
