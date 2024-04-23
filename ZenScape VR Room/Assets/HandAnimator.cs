@@ -44,6 +44,6 @@ public class HandAnimator : MonoBehaviour
         }
 
         // Log the values of trigger and grip to the console
-        Debug.Log("Trigger value: " + currentTriggerValue + ", Grip value: " + currentGripValue);
+        //Debug.Log("Trigger value: " + currentTriggerValue + ", Grip value: " + currentGripValue);
     }
 }
