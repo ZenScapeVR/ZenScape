@@ -9,14 +9,17 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: a284dbbb7720427428df4ee2f0103734
+  - enabled: 1
+    path: Assets/Scenes/Final Office.unity
+    guid: f02ed85192483404cad175c6a0e64e69
+  - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: dfe553ccfd06c384fb4d7b12455dbdb2
   - enabled: 0
     path: Assets/Scenes/Office Scene.unity
     guid: aee543eca5a58f549a5325ad5bd6fbbe
-  - enabled: 1
-    path: Assets/Scenes/Final Office.unity
-    guid: f02ed85192483404cad175c6a0e64e69
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8fccb80e6c9a84389a75f2c1ed4d786d, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 9748e85d7a330724ca55aa71401ed690, type: 2}
