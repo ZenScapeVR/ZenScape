@@ -6,7 +6,7 @@ using UnityEngine;
 public class DistractionSelection : MonoBehaviour
 {
     public int Difficulty = 0;
-    public float HearRate = 0f;
+    public float HeartRate = 89;
     public GameObject SelectedDistraction;
 
     // low
@@ -49,9 +49,9 @@ public class DistractionSelection : MonoBehaviour
         
         // may need to change values after testing, these are temporary
         // high heartrate
-        if (HearRate >= 88 || Difficulty == 3) { level = DIFFICULTY_LEVEL.HARD; }
+        if (HeartRate >= 88 || Difficulty == 3) { level = DIFFICULTY_LEVEL.HARD; }
         // medium heartrate
-        else if (HearRate >=  74 || Difficulty == 2)  { level = DIFFICULTY_LEVEL.MEDIUM; }
+        else if (HeartRate >=  74 || Difficulty == 2)  { level = DIFFICULTY_LEVEL.MEDIUM; }
         // low heartrate
         else { level = DIFFICULTY_LEVEL.EASY; }
 
