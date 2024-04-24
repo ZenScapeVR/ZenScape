@@ -5,7 +5,8 @@ using UnityEngine.Video;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
-public class BaselineMeasurer : MonoBehaviour
+
+public class TutorialVideoScript : MonoBehaviour
 {
     public VideoPlayer videoPlayer; // Assign this in the Unity Editor
     public string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/";
@@ -28,13 +29,13 @@ public class BaselineMeasurer : MonoBehaviour
     {
         Debug.Log("Video Finished!");
 
-        // Fetch active user's index from Firebase
-        StartCoroutine(FetchActiveUserIndex());
+        // Fetch active user's userId from Firebase
+        StartCoroutine(FetchActiveUserId());
     }
 
-    IEnumerator FetchActiveUserIndex()
+    IEnumerator FetchActiveUserId()
     {
-        // Construct the URL for Firebase REST API to get active_user
+        // Construct the URL for Firebase REST API to get active_user's userId
         string activeUserUrl = firebaseURL + "/" + activeFirebaseRef + ".json";
 
         using (UnityWebRequest activeUserRequest = UnityWebRequest.Get(activeUserUrl))
@@ -47,14 +48,13 @@ public class BaselineMeasurer : MonoBehaviour
 
                 if (!string.IsNullOrEmpty(activeUserJson))
                 {
-                    // Parse the activeUserJson to get active user's index
-                    int activeUserIndex = ParseActiveUserIndex(activeUserJson);
+                    // Parse the activeUserJson to get active user's userId
+                    string activeUserId = ParseActiveUserId(activeUserJson);
 
-                    if (activeUserIndex >= 0)
+                    if (!string.IsNullOrEmpty(activeUserId))
                     {
-                        Debug.Log("Active User Index: " + activeUserIndex);
-
-                        // Fetch zenscape_users array to get user's avg_pulse and pulse_history
+                        Debug.Log("Active User Id: " + activeUserId);
+                        // Fetch zenscape_users array to find the user's entry
                         string zenscapeUsersUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
 
                         using (UnityWebRequest zenscapeUsersRequest = UnityWebRequest.Get(zenscapeUsersUrl))
@@ -67,83 +67,80 @@ public class BaselineMeasurer : MonoBehaviour
 
                                 // Update the user's baseline with avg_pulse
                                 // Clear the user's pulse_history array
-                                UpdateUserBaselineAndClearHistory(zenscapeUsersJson, activeUserIndex);
+                                UpdateUserBaselineAndClearHistory(zenscapeUsersJson, activeUserId);
                             }
                             else
                             {
-                                Debug.LogError("Error fetching zenscape_users: " + zenscapeUsersRequest.error);
+                                Debug.Log("Error fetching zenscape_users: " + zenscapeUsersRequest.error);
                             }
                         }
                     }
                     else
                     {
-                        Debug.LogError("Error parsing active user index from JSON.");
+                        Debug.Log("Active user's userId is invalid.");
                     }
                 }
                 else
                 {
-                    Debug.LogError("Active user JSON is empty.");
+                    Debug.Log("Active user JSON is empty.");
                 }
             }
             else
             {
-                Debug.LogError("Error fetching active_user: " + activeUserRequest.error);
+                Debug.Log("Error fetching active_user: " + activeUserRequest.error);
             }
         }
     }
 
-    int ParseActiveUserIndex(string activeUserJson)
+    string ParseActiveUserId(string activeUserJson)
     {
-        // Parse the activeUserJson to get active user's index
-        // This assumes the JSON structure is something like: {"active_user": 0}
-        // You may need to adjust this based on your actual Firebase data structure
         try
         {
+            // Parse the activeUserJson to get active user's userId
+            Debug.Log(activeUserJson);
             JObject jsonObject = JObject.Parse(activeUserJson);
-            return jsonObject["active_user"].ToObject<int>();
+            return jsonObject["userId"].ToString();
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Error parsing active user index from JSON: " + e.Message);
-            return -1;
+            Debug.LogError("Error parsing active user's userId from JSON: " + e.Message);
+            return null;
         }
     }
 
-    void UpdateUserBaselineAndClearHistory(string zenscapeUsersJson, int activeUserIndex)
+    void UpdateUserBaselineAndClearHistory(string zenscapeUsersJson, string activeUserId)
     {
-        // Parse zenscapeUsersJson to find the active user's entry
-        // This assumes zenscapeUsersJson is an array of user objects
-        // You may need to adjust this based on your actual Firebase data structure
-
         try
         {
+            // Parse zenscapeUsersJson to find the active user's entry
             JArray jsonArray = JArray.Parse(zenscapeUsersJson);
 
-            if (activeUserIndex < jsonArray.Count)
+            foreach (JObject userObject in jsonArray)
             {
-                JObject userObject = (JObject)jsonArray[activeUserIndex];
+                if (userObject != null && userObject["avg_pulse"] != null && userObject["avg_pulse"].ToString() == activeUserId)
+                {
+                    // Found the user, update baseline with avg_pulse
+                    int avgPulse = (int)userObject["avg_pulse"];
+                    userObject["baseline"] = avgPulse;
 
-                // Found the user, update baseline with avg_pulse
-                int avgPulse = (int)userObject["avg_pulse"];
-                userObject["baseline"] = avgPulse;
+                    // Clear pulse_history array
+                    userObject["pulse_history"] = new JArray();
 
-                // Clear pulse_history array
-                userObject["pulse_history"] = new JArray();
+                    // Convert the updated JSON back to string
+                    string updatedJsonData = jsonArray.ToString();
 
-                // Convert the updated JSON back to string
-                string updatedJsonData = jsonArray.ToString();
+                    // Update zenscape_users in Firebase
+                    string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
 
-                // Update zenscape_users in Firebase
-                string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
+                    byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(updatedJsonData);
 
-                byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(updatedJsonData);
-
-                StartCoroutine(UpdateUserData(updateUrl, jsonDataBytes));
+                    StartCoroutine(UpdateUserData(updateUrl, jsonDataBytes));
+                    return; // Exit loop once user is found and updated
+                }
             }
-            else
-            {
-                Debug.LogError("Active user index is out of range.");
-            }
+
+            // If active user is not found
+            Debug.LogError("Active user with userId " + activeUserId + " not found.");
         }
         catch (System.Exception e)
         {

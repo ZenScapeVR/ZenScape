@@ -153,7 +153,7 @@ public class CreateUserButton : MonoBehaviour
             {
                 UnityEngine.Debug.Log("Set active user to ID: " + userId);
                 yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
-                SceneManager.LoadScene("Lobby");
+                SceneManager.LoadScene("TutorialVideo");
             }
             else
             {
