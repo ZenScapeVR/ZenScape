@@ -766,19 +766,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ade92bc00c80e94384e955a86a39c44, type: 3}
---- !u!1 &1115907260 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3823254175993711420, guid: 7ade92bc00c80e94384e955a86a39c44, type: 3}
-  m_PrefabInstance: {fileID: 1115907259}
-  m_PrefabAsset: {fileID: 0}
---- !u!33 &1115907261
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115907260}
-  m_Mesh: {fileID: 0}
 --- !u!1 &1135005319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,6 +1947,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1261052640, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4567664014594326935, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
       propertyPath: m_Name
       value: Lobby
@@ -2020,7 +2011,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5469348514539308842, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
+    - {fileID: 5469348514778327159, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
+    - {fileID: 5469348515383228414, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8c27958e500aeee4bac76e0e11feffc8, type: 3}
 --- !u!1001 &6065939213478246855
 PrefabInstance:

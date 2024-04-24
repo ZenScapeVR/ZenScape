@@ -11594,7 +11594,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.8749851, b: 0.6650944, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 15
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -11779,19 +11779,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &5469348515518877868
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5613981008713119987}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.4529043, y: 0.20146012, z: 0.45175743}
-  m_Center: {x: 0.002293989, y: 0.10275215, z: -0.007455528}
 --- !u!65 &5480926109316056331
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11816,7 +11803,6 @@ GameObject:
   - component: {fileID: 5089926671752110665}
   - component: {fileID: 8146121956406406636}
   - component: {fileID: 6262292165134506278}
-  - component: {fileID: 5469348515518877868}
   m_Layer: 0
   m_Name: Chandelier_Modern
   m_TagString: Untagged
