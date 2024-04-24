@@ -1,31 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-
-[System.Serializable]
-public class UserData
-{
-    public List<UserEntry> zenscape_users;
-}
-
-[System.Serializable]
-public class UserEntry
-{
-    public string avg_pulse;
-    public int baseline;
-    public string live_pulse;
-    public Metrics[] metrics;
-    public string pulse_history;
-}
-
-[System.Serializable]
-public class Metrics
-{
-    public int accuracy;
-    public int avg_pulse;
-}
+using Newtonsoft.Json.Linq;
+using System.Collections;
 
 public class CreateUserButton : MonoBehaviour
 {
@@ -36,9 +13,7 @@ public class CreateUserButton : MonoBehaviour
     AudioSource audioSource;
     public AudioClip successClip;
     public AudioClip failureClip;
-
     private bool isPressed;
-
     public string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/"; // Your Firebase URL
     public string loggedInFirebaseRef = "zenscape_users"; // Firebase reference for "loggedIn"
     public string activeFirebaseRef = "active_user"; // Firebase reference for "active_user"
@@ -117,47 +92,48 @@ public class CreateUserButton : MonoBehaviour
             if (loggedInRequest.result == UnityWebRequest.Result.Success)
             {
                 string jsonResponse = loggedInRequest.downloadHandler.text;
+                // Use JSON.NET to parse the JSON array
+                JArray jsonArray = JArray.Parse(jsonResponse);
+                // Add a new user entry
+                JObject newUser = new JObject();
+                newUser["avg_pulse"] = "100"; // Example data
+                newUser["baseline"] = 80; // Example data
+                newUser["live_pulse"] = "90"; // Example data
 
-                // Deserialize the JSON response to get existing user entries
-                UserData userData = JsonUtility.FromJson<UserData>("{\"zenscape_users\":" + jsonResponse + "}");
+                JArray metricsArray = new JArray();
+                JObject metric1 = new JObject();
+                metric1["accuracy"] = 95; // Example data
+                metric1["avg_pulse"] = 85; // Example data
+                metricsArray.Add(metric1);
+                // Add more metrics as needed
 
-                if (userData != null)
+                newUser["metrics"] = metricsArray;
+
+                jsonArray.Add(newUser);
+
+                string updatedJsonData = jsonArray.ToString();
+
+                // Update the data on Firebase
+                using (UnityWebRequest loggedInPostRequest = UnityWebRequest.Put(loggedInUrl, updatedJsonData))
                 {
-                    // Add a new user entry
-                    userData.zenscape_users.Add(new UserEntry());
+                    loggedInPostRequest.SetRequestHeader("Content-Type", "application/json");
+                    yield return loggedInPostRequest.SendWebRequest();
 
-                    // Serialize the updated data
-                    string updatedJsonData = "{\"zenscape_users\":" + JsonHelper.ToJson(userData.zenscape_users) + "}";
-
-                    // Update the data on Firebase
-                    using (UnityWebRequest loggedInPostRequest = UnityWebRequest.Put(loggedInUrl, updatedJsonData))
+                    if (loggedInPostRequest.result != UnityWebRequest.Result.Success)
                     {
-                        loggedInPostRequest.SetRequestHeader("Content-Type", "application/json");
-                        yield return loggedInPostRequest.SendWebRequest();
-
-                        if (loggedInPostRequest.result != UnityWebRequest.Result.Success)
-                        {
-                            Debug.Log("Error adding new user: " + loggedInPostRequest.error);
-                            PlayFailureSound();
-                            yield break;
-                        }
+                        UnityEngine.Debug.Log("Error adding new user: " + loggedInPostRequest.error);
+                        PlayFailureSound();
+                        yield break;
                     }
-
-                    Debug.Log("Added new user");
-                    PlaySound();
-
-                    // Now set active_user to the new userId
-                    StartCoroutine(SetActiveUser(userData.zenscape_users.Count - 1));
                 }
-                else
-                {
-                    Debug.Log("Error parsing JSON response for existing users.");
-                    PlayFailureSound();
-                }
+
+                UnityEngine.Debug.Log("Added new user");
+                PlaySound();
+                StartCoroutine(SetActiveUser(jsonArray.Count - 1));
             }
             else
             {
-                Debug.Log("Error getting existing users: " + loggedInRequest.error);
+                UnityEngine.Debug.Log("Error getting existing users: " + loggedInRequest.error);
                 PlayFailureSound();
             }
         }
@@ -175,37 +151,12 @@ public class CreateUserButton : MonoBehaviour
 
             if (activePostRequest.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Set active user to ID: " + userId);
+                UnityEngine.Debug.Log("Set active user to ID: " + userId);
             }
             else
             {
-                Debug.Log("Error setting active user: " + activePostRequest.error);
+                UnityEngine.Debug.Log("Error setting active user: " + activePostRequest.error);
             }
         }
-    }
-}
-
-public static class JsonHelper
-{
-    // Helper class to serialize and deserialize JSON arrays
-    public static string ToJson<T>(List<T> list)
-    {
-        Wrapper<T> wrapper = new Wrapper<T>
-        {
-            Items = list
-        };
-        return JsonUtility.ToJson(wrapper);
-    }
-
-    public static List<T> FromJson<T>(string json)
-    {
-        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
-        return wrapper.Items;
-    }
-
-    [System.Serializable]
-    private class Wrapper<T>
-    {
-        public List<T> Items;
     }
 }
