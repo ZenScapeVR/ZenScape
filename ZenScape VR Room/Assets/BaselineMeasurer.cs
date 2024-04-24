@@ -1,12 +1,12 @@
+using System.Diagnostics;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Video;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 
-public class TutorialVideoScript : MonoBehaviour
+public class BaselineMeasurer : MonoBehaviour
 {
     public VideoPlayer videoPlayer; // Assign this in the Unity Editor
     public string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/";
@@ -17,7 +17,7 @@ public class TutorialVideoScript : MonoBehaviour
     {
         if (videoPlayer == null)
         {
-            Debug.LogError("VideoPlayer reference is not assigned!");
+            UnityEngine.Debug.LogError("VideoPlayer reference is not assigned!");
             return;
         }
 
@@ -27,7 +27,7 @@ public class TutorialVideoScript : MonoBehaviour
 
     void OnVideoFinished(VideoPlayer vp)
     {
-        Debug.Log("Video Finished!");
+        UnityEngine.Debug.Log("Video Finished!");
 
         // Fetch active user's userId from Firebase
         StartCoroutine(FetchActiveUserId());
@@ -45,6 +45,7 @@ public class TutorialVideoScript : MonoBehaviour
             if (activeUserRequest.result == UnityWebRequest.Result.Success)
             {
                 string activeUserJson = activeUserRequest.downloadHandler.text;
+                UnityEngine.Debug.Log(activeUserJson);
 
                 if (!string.IsNullOrEmpty(activeUserJson))
                 {
@@ -53,41 +54,40 @@ public class TutorialVideoScript : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(activeUserId))
                     {
-                        Debug.Log("Active User Id: " + activeUserId);
-                        // Fetch zenscape_users array to find the user's entry
-                        string zenscapeUsersUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
-
+                        UnityEngine.Debug.Log("Active User Id: " + activeUserId);
+                        // Fetch user's entry from zenscape_users
+                        string zenscapeUsersUrl = firebaseURL + "/" + loggedInFirebaseRef + "/" + activeUserId + ".json";
                         using (UnityWebRequest zenscapeUsersRequest = UnityWebRequest.Get(zenscapeUsersUrl))
                         {
                             yield return zenscapeUsersRequest.SendWebRequest();
 
                             if (zenscapeUsersRequest.result == UnityWebRequest.Result.Success)
                             {
-                                string zenscapeUsersJson = zenscapeUsersRequest.downloadHandler.text;
+                                string zenscapeUserJson = zenscapeUsersRequest.downloadHandler.text;
+                                UnityEngine.Debug.Log("Zenscape User Data: " + zenscapeUserJson);
 
-                                // Update the user's baseline with avg_pulse
-                                // Clear the user's pulse_history array
-                                UpdateUserBaselineAndClearHistory(zenscapeUsersJson, activeUserId);
+                                // Update the user's baseline with avg_pulse and clear pulse_history
+                                UpdateUserBaselineAndClearHistory(zenscapeUserJson, activeUserId);
                             }
                             else
                             {
-                                Debug.Log("Error fetching zenscape_users: " + zenscapeUsersRequest.error);
+                                UnityEngine.Debug.LogError("Error fetching zenscape_users: " + zenscapeUsersRequest.error);
                             }
                         }
                     }
                     else
                     {
-                        Debug.Log("Active user's userId is invalid.");
+                        UnityEngine.Debug.LogError("Active user's userId is invalid.");
                     }
                 }
                 else
                 {
-                    Debug.Log("Active user JSON is empty.");
+                    UnityEngine.Debug.LogError("Active user JSON is empty.");
                 }
             }
             else
             {
-                Debug.Log("Error fetching active_user: " + activeUserRequest.error);
+                UnityEngine.Debug.LogError("Error fetching active_user: " + activeUserRequest.error);
             }
         }
     }
@@ -97,54 +97,55 @@ public class TutorialVideoScript : MonoBehaviour
         try
         {
             // Parse the activeUserJson to get active user's userId
-            Debug.Log(activeUserJson);
             JObject jsonObject = JObject.Parse(activeUserJson);
-            return jsonObject["userId"].ToString();
+            return jsonObject["userId"]?.ToString();
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Error parsing active user's userId from JSON: " + e.Message);
+            UnityEngine.Debug.LogError("Error parsing active user's userId from JSON: " + e.Message);
             return null;
         }
     }
 
-    void UpdateUserBaselineAndClearHistory(string zenscapeUsersJson, string activeUserId)
+    void UpdateUserBaselineAndClearHistory(string zenscapeUserJson, string activeUserId)
     {
         try
         {
-            // Parse zenscapeUsersJson to find the active user's entry
-            JArray jsonArray = JArray.Parse(zenscapeUsersJson);
-
-            foreach (JObject userObject in jsonArray)
+            UnityEngine.Debug.Log(zenscapeUserJson);
+            JObject userObject = JObject.Parse(zenscapeUserJson);
+            if (userObject != null)
             {
-                if (userObject != null && userObject["avg_pulse"] != null && userObject["avg_pulse"].ToString() == activeUserId)
+                // Update baseline with avg_pulse
+                if (userObject["avg_pulse"] != null)
                 {
-                    // Found the user, update baseline with avg_pulse
                     int avgPulse = (int)userObject["avg_pulse"];
                     userObject["baseline"] = avgPulse;
 
                     // Clear pulse_history array
-                    userObject["pulse_history"] = new JArray();
+                    userObject["pulse_history"] = "";
 
                     // Convert the updated JSON back to string
-                    string updatedJsonData = jsonArray.ToString();
+                    string updatedJsonData = userObject.ToString();
 
                     // Update zenscape_users in Firebase
-                    string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
-
+                    string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + "/" + activeUserId + ".json";
                     byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(updatedJsonData);
 
                     StartCoroutine(UpdateUserData(updateUrl, jsonDataBytes));
-                    return; // Exit loop once user is found and updated
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError("avg_pulse is missing or invalid in zenscape user data.");
                 }
             }
-
-            // If active user is not found
-            Debug.LogError("Active user with userId " + activeUserId + " not found.");
+            else
+            {
+                UnityEngine.Debug.LogError("Error parsing zenscape user data.");
+            }
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Error updating user data: " + e.Message);
+            UnityEngine.Debug.LogError("Error updating user data: " + e.Message);
         }
     }
 
@@ -158,11 +159,11 @@ public class TutorialVideoScript : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Error updating zenscape_users: " + www.error);
+                UnityEngine.Debug.LogError("Error updating zenscape_users: " + www.error);
             }
             else
             {
-                Debug.Log("Updated baseline and cleared pulse history for active user.");
+                UnityEngine.Debug.Log("Updated baseline and cleared pulse history for active user.");
 
                 // Wait for 3 seconds before loading the "Lobby" scene
                 yield return new WaitForSeconds(3f);
