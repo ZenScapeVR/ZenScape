@@ -2,11 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
+using Newtonsoft.Json;
 
 public class LivePulseListener : MonoBehaviour
 {
     // URL of the API endpoint
-    private string apiUrl = "https://zenscape-b6d91-default-rtdb.firebaseio.com/pulse.json";
+    private string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/";
+    private string activeFirebaseRef = "active_user";
+    private string loggedInFirebaseRef = "zenscape_users";
 
     // Reference to the TextMeshPro component
     public TextMeshProUGUI textMeshPro;
@@ -14,61 +17,109 @@ public class LivePulseListener : MonoBehaviour
     // Frequency of API requests (in seconds)
     public float requestInterval = 1f; // Update every 1 second
 
+    private string activeUserId;
+
     // Start is called before the first frame update
     void Start()
     {
-        // Start coroutine to continuously fetch data from API
-        StartCoroutine(FetchDataRoutine());
+        // Start coroutine to fetch active user data
+        StartCoroutine(FetchActiveUserData());
+        
+        // Start coroutine to continuously fetch live pulse data
+        StartCoroutine(FetchLivePulseData());
     }
 
-    // Coroutine to continuously fetch data from API
-    IEnumerator FetchDataRoutine()
+    // Coroutine to fetch active user data once
+    IEnumerator FetchActiveUserData()
+    {
+        // Construct the URL to get active user's data
+        string activeUserUrl = firebaseURL + "/" + activeFirebaseRef + ".json";
+        using (UnityWebRequest activeUserRequest = UnityWebRequest.Get(activeUserUrl))
+        {
+            yield return activeUserRequest.SendWebRequest();
+
+            if (activeUserRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Error fetching active_user: " + activeUserRequest.error);
+                yield break;
+            }
+
+            string activeUserJson = activeUserRequest.downloadHandler.text;
+            activeUserId = ParseActiveUserId(activeUserJson);
+
+            if (string.IsNullOrEmpty(activeUserId))
+            {
+                Debug.LogError("Active user's userId is invalid.");
+                yield break;
+            }
+
+            Debug.Log("Active User Id: " + activeUserId);
+        }
+    }
+
+    // Coroutine to continuously fetch live pulse data
+    IEnumerator FetchLivePulseData()
     {
         while (true)
         {
-            // Create a UnityWebRequest object
-            using (UnityWebRequest webRequest = UnityWebRequest.Get(apiUrl))
+            if (!string.IsNullOrEmpty(activeUserId))
             {
-                // Send the request and wait for the response
-                yield return webRequest.SendWebRequest();
-
-                // Check for errors
-                if (webRequest.result != UnityWebRequest.Result.Success)
+                // Construct the URL to get user's data by userId
+                string userUrl = firebaseURL + "/" + loggedInFirebaseRef + "/" + activeUserId + ".json";
+                using (UnityWebRequest userRequest = UnityWebRequest.Get(userUrl))
                 {
-                    Debug.LogError("Error: " + webRequest.error);
-                }
-                else
-                {
-                    // Extract the numeric value from the JSON response
-                    int value = ExtractNumericValue(webRequest.downloadHandler.text);
+                    yield return userRequest.SendWebRequest();
 
-                    // Set the text of the TextMeshPro component to the extracted numeric value
-                    textMeshPro.text = value.ToString();
+                    if (userRequest.result != UnityWebRequest.Result.Success)
+                    {
+                        Debug.LogError("Error fetching user data: " + userRequest.error);
+                    }
+                    else
+                    {
+                        string userDataJson = userRequest.downloadHandler.text;
+                        int livePulse = GetLivePulseFromUserData(userDataJson);
 
-                    // Log the numeric value
-                    Debug.Log("Value: " + value);
+                        // Set the text of the TextMeshPro component to the live pulse value
+                        textMeshPro.text = livePulse.ToString();
+
+                        // Log the live pulse value
+                        Debug.Log("Live Pulse: " + livePulse);
+                    }
                 }
             }
 
-            // Wait for 1 second before fetching data again
+            // Wait for specified interval before fetching live pulse data again
             yield return new WaitForSeconds(requestInterval);
         }
     }
 
-    // Method to parse JSON response and extract numeric value of "value" field
-    int ExtractNumericValue(string jsonResponse)
+    // Method to parse active user's userId from JSON using Newtonsoft.Json
+    string ParseActiveUserId(string activeUserJson)
     {
-        // Deserialize the JSON response into a data structure
-        PulseData pulseData = JsonUtility.FromJson<PulseData>(jsonResponse);
-
-        // Extract the numeric value of "value" field
-        return pulseData.value;
+        try
+        {
+            dynamic jsonObject = JsonConvert.DeserializeObject(activeUserJson);
+            return jsonObject["userId"];
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error parsing active user's userId from JSON: " + e.Message);
+            return null;
+        }
     }
 
-    // Data structure representing the JSON response
-    [System.Serializable]
-    public class PulseData
+    // Method to extract live pulse from user data JSON using Newtonsoft.Json
+    int GetLivePulseFromUserData(string userDataJson)
     {
-        public int value;
+        try
+        {
+            dynamic userData = JsonConvert.DeserializeObject(userDataJson);
+            return userData["live_pulse"];
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error extracting live pulse from user data JSON: " + e.Message);
+            return 0;
+        }
     }
 }

@@ -1,6 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
+from firebase_admin import credentials, db
 import time
 
 # Initialize Firebase
@@ -24,19 +23,29 @@ def get_most_recent_pulse():
                 exception = e
     return pulse
 
-# Function to read pulse history from Firebase
+# Function to read the active user ID from Firebase
+def read_active_user_id():
+    ref = db.reference('active_user/userId')
+    return ref.get()
+
+# Function to read pulse history from Firebase for the active user
 def read_pulse_history():
-    ref = db.reference('pulseHistory')
-    return ref.get() or []
+    active_user_id = read_active_user_id()
+    if active_user_id:
+        ref = db.reference('zenscape_users/' + active_user_id + '/pulse_history')
+        return ref.get() or []
+    return []
 
-# Function to update pulse history in Firebase
+# Function to update pulse history for the active user in Firebase
 def update_pulse_history(pulse):
-    pulse_history = read_pulse_history()
-    pulse_history.append(pulse)
-    ref = db.reference('pulseHistory')
-    ref.set(pulse_history)
+    active_user_id = read_active_user_id()
+    if active_user_id:
+        pulse_history = read_pulse_history()
+        pulse_history.append(pulse)
+        ref = db.reference('zenscape_users/' + active_user_id + '/pulse_history')
+        ref.set(pulse_history)
 
-# Function to calculate average pulse from pulse history
+# Function to calculate average pulse from pulse history for the active user
 def calculate_average_pulse():
     pulse_history = read_pulse_history()
     if pulse_history:
@@ -45,19 +54,19 @@ def calculate_average_pulse():
         return average_pulse
     return None
 
-# Function to push pulse to Realtime Database
-def push_pulse(pulse):
-    ref = db.reference('pulse')
-    ref.set({
-        'value': pulse
-    })
+# Function to push pulse to the active user in Realtime Database
+def push_pulse_to_active_user(pulse):
+    active_user_id = read_active_user_id()
+    if active_user_id:
+        ref = db.reference('zenscape_users/' + active_user_id + '/live_pulse')
+        ref.set(pulse)
 
-# Function to push average pulse to Realtime Database
-def push_avg_pulse(pulse):
-    ref = db.reference('avg_pulse')
-    ref.set({
-        'value': pulse
-    })
+# Function to push average pulse to the active user in Realtime Database
+def push_avg_pulse_to_active_user(pulse):
+    active_user_id = read_active_user_id()
+    if active_user_id:
+        ref = db.reference('zenscape_users/' + active_user_id + '/avg_pulse')
+        ref.set(pulse)
 
 # Function to watch the log file and push data to Firebase
 def watch_and_push_data():
@@ -65,8 +74,8 @@ def watch_and_push_data():
         most_recent_pulse = get_most_recent_pulse()
         avg_pulse = calculate_average_pulse()
         if most_recent_pulse is not None:
-            push_pulse(most_recent_pulse)
-            push_avg_pulse(avg_pulse)
+            push_pulse_to_active_user(most_recent_pulse)
+            push_avg_pulse_to_active_user(avg_pulse)
             update_pulse_history(most_recent_pulse)
         time.sleep(.100)
 
