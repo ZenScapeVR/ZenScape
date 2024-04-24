@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using Newtonsoft.Json.Linq;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class CreateUserButton : MonoBehaviour
 {
     public GameObject button;
@@ -152,6 +152,8 @@ public class CreateUserButton : MonoBehaviour
             if (activePostRequest.result == UnityWebRequest.Result.Success)
             {
                 UnityEngine.Debug.Log("Set active user to ID: " + userId);
+                yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+                SceneManager.LoadScene("Lobby");
             }
             else
             {

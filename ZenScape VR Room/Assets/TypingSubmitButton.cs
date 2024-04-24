@@ -116,6 +116,7 @@ public class TypingSubmitButton : MonoBehaviour
                     // Post playerName to active Firebase reference
                     StartCoroutine(PostToFirebase(playerName));
                     // Change to "Lobby" scene
+                    yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
                     SceneManager.LoadScene("Lobby");
                 }
             }
