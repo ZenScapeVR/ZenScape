@@ -9212,6 +9212,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3823254175993711418, guid: 7ade92bc00c80e94384e955a86a39c44, type: 3}
+      propertyPath: m_text
+      value: 'Debug Log:
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 3823254175993711420, guid: 7ade92bc00c80e94384e955a86a39c44, type: 3}
       propertyPath: m_Name
       value: Debug Log Display
@@ -10651,7 +10657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5034172547136502563}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.98, y: -1.113, z: -13.331}
+  m_LocalPosition: {x: -3.98, y: -1.406, z: -13.331}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
