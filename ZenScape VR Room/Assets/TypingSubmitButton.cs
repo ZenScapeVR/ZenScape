@@ -136,7 +136,7 @@ public class TypingSubmitButton : MonoBehaviour
         string url = firebaseURL + "/" + activeFirebaseRef + ".json";
 
         // Construct the JSON data
-        string jsonData = "{\"playerName\": \"" + playerName + "\"}";
+        string jsonData = "{\"userId\": \"" + playerName + "\"}";
 
         byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(jsonData);
 

@@ -7,14 +7,24 @@ using UnityEngine.Networking;
 [System.Serializable]
 public class UserData
 {
-    public Dictionary<string, UserEntry> entries;
+    public List<UserEntry> zenscape_users;
 }
 
 [System.Serializable]
 public class UserEntry
 {
-    public string playerName;
-    public int userId;
+    public string avg_pulse;
+    public int baseline;
+    public string live_pulse;
+    public Metrics[] metrics;
+    public string pulse_history;
+}
+
+[System.Serializable]
+public class Metrics
+{
+    public int accuracy;
+    public int avg_pulse;
 }
 
 public class CreateUserButton : MonoBehaviour
@@ -30,8 +40,8 @@ public class CreateUserButton : MonoBehaviour
     private bool isPressed;
 
     public string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/"; // Your Firebase URL
-    public string activeFirebaseRef = "active_user"; // Firebase reference for "active"
     public string loggedInFirebaseRef = "zenscape_users"; // Firebase reference for "loggedIn"
+    public string activeFirebaseRef = "active_user"; // Firebase reference for "active_user"
 
     Vector3 originalPosition; // Store the original position of the button
 
@@ -99,7 +109,6 @@ public class CreateUserButton : MonoBehaviour
     {
         // Construct the URL for Firebase REST API
         string loggedInUrl = firebaseURL + "/" + loggedInFirebaseRef + ".json";
-        string activeUrl = firebaseURL + "/" + activeFirebaseRef + ".json";
 
         using (UnityWebRequest loggedInRequest = UnityWebRequest.Get(loggedInUrl))
         {
@@ -109,26 +118,18 @@ public class CreateUserButton : MonoBehaviour
             {
                 string jsonResponse = loggedInRequest.downloadHandler.text;
 
-                // Deserialize the JSON response to get existing user IDs
-                UserData userData = JsonUtility.FromJson<UserData>(jsonResponse);
+                // Deserialize the JSON response to get existing user entries
+                UserData userData = JsonUtility.FromJson<UserData>("{\"zenscape_users\":" + jsonResponse + "}");
 
-                if (userData != null && userData.entries != null)
+                if (userData != null)
                 {
-                    List<int> existingUserIds = ParseExistingUserIds(userData);
+                    // Add a new user entry
+                    userData.zenscape_users.Add(new UserEntry());
 
-                    // Find the lowest available user ID that doesn't already exist
-                    int newUserId = FindLowestAvailableUserId(existingUserIds);
+                    // Serialize the updated data
+                    string updatedJsonData = "{\"zenscape_users\":" + JsonHelper.ToJson(userData.zenscape_users) + "}";
 
-                    // Add the new user to loggedIn Firebase
-                    UserEntry newEntry = new UserEntry
-                    {
-                        playerName = newUserId.ToString(),
-                        userId = newUserId
-                    };
-
-                    userData.entries.Add(newUserId.ToString(), newEntry);
-                    string updatedJsonData = JsonUtility.ToJson(userData);
-
+                    // Update the data on Firebase
                     using (UnityWebRequest loggedInPostRequest = UnityWebRequest.Put(loggedInUrl, updatedJsonData))
                     {
                         loggedInPostRequest.SetRequestHeader("Content-Type", "application/json");
@@ -136,69 +137,75 @@ public class CreateUserButton : MonoBehaviour
 
                         if (loggedInPostRequest.result != UnityWebRequest.Result.Success)
                         {
-                            Debug.Log("Error adding new user to loggedIn: " + loggedInPostRequest.error);
+                            Debug.Log("Error adding new user: " + loggedInPostRequest.error);
                             PlayFailureSound();
                             yield break;
                         }
                     }
 
-                    // Add the new user ID as playerName to active Firebase
-                    string activeJsonData = "{\"playerName\": \"" + newUserId.ToString() + "\", \"userId\": " + newUserId.ToString() + "}";
-
-                    using (UnityWebRequest activePostRequest = UnityWebRequest.Put(activeUrl, activeJsonData))
-                    {
-                        activePostRequest.SetRequestHeader("Content-Type", "application/json");
-                        yield return activePostRequest.SendWebRequest();
-
-                        if (activePostRequest.result != UnityWebRequest.Result.Success)
-                        {
-                            Debug.Log("Error adding new user to active: " + activePostRequest.error);
-                            PlayFailureSound();
-                            yield break;
-                        }
-                    }
-
-                    Debug.Log("Added new user with ID: " + newUserId);
+                    Debug.Log("Added new user");
                     PlaySound();
+
+                    // Now set active_user to the new userId
+                    StartCoroutine(SetActiveUser(userData.zenscape_users.Count - 1));
                 }
                 else
                 {
-                    Debug.Log("Error parsing JSON response for existing user IDs.");
+                    Debug.Log("Error parsing JSON response for existing users.");
                     PlayFailureSound();
                 }
             }
             else
             {
-                Debug.Log("Error getting existing user IDs: " + loggedInRequest.error);
+                Debug.Log("Error getting existing users: " + loggedInRequest.error);
                 PlayFailureSound();
             }
         }
     }
 
-    private List<int> ParseExistingUserIds(UserData userData)
+    IEnumerator SetActiveUser(int userId)
     {
-        List<int> existingUserIds = new List<int>();
+        string activeUrl = firebaseURL + "/" + activeFirebaseRef + ".json";
+        string activeJsonData = "{\"userId\": \"" + userId.ToString() + "\"}";
 
-        if (userData != null && userData.entries != null)
+        using (UnityWebRequest activePostRequest = UnityWebRequest.Put(activeUrl, activeJsonData))
         {
-            foreach (var entry in userData.entries.Values)
+            activePostRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return activePostRequest.SendWebRequest();
+
+            if (activePostRequest.result == UnityWebRequest.Result.Success)
             {
-                existingUserIds.Add(entry.userId);
+                Debug.Log("Set active user to ID: " + userId);
+            }
+            else
+            {
+                Debug.Log("Error setting active user: " + activePostRequest.error);
             }
         }
+    }
+}
 
-        return existingUserIds;
+public static class JsonHelper
+{
+    // Helper class to serialize and deserialize JSON arrays
+    public static string ToJson<T>(List<T> list)
+    {
+        Wrapper<T> wrapper = new Wrapper<T>
+        {
+            Items = list
+        };
+        return JsonUtility.ToJson(wrapper);
     }
 
-    private int FindLowestAvailableUserId(List<int> existingUserIds)
+    public static List<T> FromJson<T>(string json)
     {
-        int newUserId = 1; // Start from 1
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
+        return wrapper.Items;
+    }
 
-        while (existingUserIds.Contains(newUserId))
-        {
-            newUserId++;
-        }
-
-        return newUserId;
+    [System.Serializable]
+    private class Wrapper<T>
+    {
+        public List<T> Items;
     }
 }
