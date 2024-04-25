@@ -15,7 +15,7 @@ public class AmbulanceDistraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartEvent();
+        StartEvent();
         //Instantiate(ambulance, start_position.transform.position, Quaternion.identity);
         //StartCoroutine(Move(ambulance, end_position, speed));
     }

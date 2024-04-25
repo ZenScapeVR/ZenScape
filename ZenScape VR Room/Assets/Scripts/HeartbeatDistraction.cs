@@ -13,7 +13,7 @@ public class HeartbeatDistraction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartEvent();
+        //StartEvent();
     }
 
     // Update is called once per frame
