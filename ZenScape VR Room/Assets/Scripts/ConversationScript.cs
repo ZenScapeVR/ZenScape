@@ -21,7 +21,7 @@ public class ConversationScript : MonoBehaviour
             EndEvent();
     }
 
-    void StartEvent()
+    public void StartEvent()
     {
         event_active = true;
         conversation_location.GetComponent<AudioSource>().Play();

@@ -24,7 +24,7 @@ public class HeartbeatDistraction : MonoBehaviour
             EndEvent();
     }
 
-    void StartEvent()
+    public void StartEvent()
     {
         is_active = true;
         head.GetComponent<AudioSource>().loop = true;

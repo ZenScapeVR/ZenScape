@@ -13,7 +13,7 @@ public class LightFlicker : MonoBehaviour
     private void Start()
     {
         finalCount = Random.Range(30, 45);
-        StartFlicker();
+        StartEvent();
     }
 
     void Update()
@@ -36,7 +36,7 @@ public class LightFlicker : MonoBehaviour
         yield return new WaitForSeconds(timeDelay);
     }
 
-    public void StartFlicker()
+    public void StartEvent()
     {
         counter = 0;
         isFlickering = true;

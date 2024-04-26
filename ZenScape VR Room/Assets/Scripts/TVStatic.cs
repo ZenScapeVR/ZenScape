@@ -20,7 +20,7 @@ public class TVStatic : MonoBehaviour
             StopTask();
     }
 
-    public void StartTask() 
+    public void StartEvent() 
     {
         screen.GetComponent<VideoPlayer>().Play();
         timer.TimeRemaining = 15;

@@ -31,7 +31,7 @@ public class AmbulanceDistraction : MonoBehaviour
         
     }
 
-    void StartEvent()
+    public void StartEvent()
     {
         this_ambulance = Instantiate(ambulance, start_position.transform.position, start_position.transform.rotation);
         ambulance.GetComponent<AudioSource>().Play();

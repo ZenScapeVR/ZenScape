@@ -7,20 +7,28 @@ public class DistractionSelection : MonoBehaviour
 {
     public int Difficulty = 0;
     public float HeartRate = 89;
-    public GameObject SelectedDistraction;
+    public string SelectedDistraction;
 
     // low
-    public GameObject FlickeringLights;
-    public GameObject QuietConversation;
-    public GameObject FanBuzzing;
+    //public GameObject FlickeringLights;
+    [SerializeField] private LightFlicker LightFlickerScript;
+    //public GameObject QuietConversation;
+    [SerializeField] private ConversationScript ConversationScript;
+    //public GameObject FanBuzzing;
+    [SerializeField] private AlarmClockDistraction FanBuzzScript;
     // medium
-    public GameObject AlarmClock;
-    public GameObject MonitorStatic;
-    public GameObject Crowd;
+    //public GameObject AlarmClock;
+    [SerializeField] private AlarmClockDistraction AlarmClockScript;
+    //public GameObject MonitorStatic;
+    [SerializeField] private TVStatic TVStatic;
+    //public GameObject Ambulance;
+    [SerializeField] private  AmbulanceDistraction AmbulanceScript;
     // high
-    public GameObject HeartBeat;
-    public GameObject FireAlarm;
-    public GameObject Earthquake;
+    //public GameObject HeartBeat;
+    [SerializeField] private HeartbeatDistraction HeartBeatScript;
+    //public GameObject FireAlarm;
+    [SerializeField] private FireAlarmScript FireAlarmScript;
+    //public GameObject Earthquake;
 
     private enum DIFFICULTY_LEVEL
     {
@@ -61,20 +69,20 @@ public class DistractionSelection : MonoBehaviour
     private void SelectDistraction(DIFFICULTY_LEVEL level)
     {
         System.Random rand = new System.Random();
-        GameObject selectedDistraction = null;
+        string selectedDistraction = null;
         int selectedNum;
 
         // need to shange string in dictionary to game object
-        Dictionary<int, GameObject> distractions = new Dictionary<int, GameObject>() {
-            { 1, QuietConversation },
-            { 2, FlickeringLights },
-            { 3, FanBuzzing },
-            { 4, AlarmClock },
-            { 5, MonitorStatic },
-            { 6, Crowd },
-            { 7, FireAlarm },
-            { 8, HeartBeat },
-            { 9, Earthquake },
+        Dictionary<int, string> distractions = new Dictionary<int, string>() {
+            { 1, "Quiet Conversation" },
+            { 2, "Flickering Lights" },
+            { 3, "Fan Buzzing" },
+            { 4, "Alarm Clock" },
+            { 5, "Monitor Static" },
+            { 6, "Ambulance" },
+            { 7, "Fire Alarm" },
+            { 8, "Heart Beat" },
+            { 9, "Earthquake" },
         };
 
         // select random task based on difficulty level
@@ -100,6 +108,41 @@ public class DistractionSelection : MonoBehaviour
                 break;
         }
 
-        SelectedDistraction = selectedDistraction;
+        StartDistraction(selectedDistraction);
+    }
+
+    private void StartDistraction(string distraction)
+    {
+        Debug.Log($"The selected distraction is {distraction}");
+        switch (distraction)
+        {
+            case "Flickering Lights":
+                LightFlickerScript.StartEvent();
+                break;
+            case "Quiet Conversation":
+                ConversationScript.StartEvent();
+                break;
+            case "Fan Buzzing":
+                FanBuzzScript.StartEvent();
+                break;
+            case "Alarm Clock":
+                AlarmClockScript.StartEvent();
+                break;
+            case "Monitor Static":
+                TVStatic.StartEvent();
+                break;
+            case "Ambulance":
+                AmbulanceScript.StartEvent();
+                break;
+            case "Fire Alarm":
+                FireAlarmScript.StartEvent();
+                break;
+            case "Heart Beat":
+                HeartBeatScript.StartEvent();
+                break;
+            case "Earthquake":
+                Debug.Log("EARTHQUAKE - distraction not yet implemented");
+                break;
+        }
     }
 }
