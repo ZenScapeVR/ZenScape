@@ -30,13 +30,12 @@ public class PhoneCallTask : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-
         PhoneRing();
     }
 
     private void Update()
     {
-        if (isRinging && !hangUpCollider.bounds.Contains(transform.position))
+        if (isRinging && !hangUpCollider.bounds.Contains(transform.position) && !isCallPickedUp)
         {
             StopPhoneRing();
         }
@@ -44,7 +43,7 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PhoneRing()
     {
-        if(ring != null){
+        if(ring != null && !isCallPickedUp){
             SetPhoneMetrics();
             isRinging = true;
             audioSource.clip = ring;
@@ -65,7 +64,7 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PickUpPhone()
     {
-        StartCoroutine(PlayAudioClipAndWait(pickUpSound));
+        // StartCoroutine(PlayAudioClipAndWait(pickUpSound));
         isCallPickedUp = true;
         isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
 
@@ -89,15 +88,13 @@ public class PhoneCallTask : MonoBehaviour
         Debug.Log("On trigger enter triggered");
         if (other == hangUpCollider)
         {
-            StartCoroutine(PlayAudioClipAndWait(pickUpSound));
+            // StartCoroutine(PlayAudioClipAndWait(pickUpSound));
             HandleAction(true);
         }
     }
 
     public void HandleAction(bool hungUp)
     {
-        Debug.Log("HandleAction called with hungUp: " + hungUp);
-
         if (isCallPickedUp)
         {
             if ((!isCallSpam && !hungUp) || (isCallSpam && hungUp))
@@ -105,8 +102,8 @@ public class PhoneCallTask : MonoBehaviour
                 if (audioSource != null)
                 {
                     correct++;
-                    audioSource.clip = successSound;
-                    audioSource.Play();
+                    PlayAudioClipAndWait(successSound);
+                    SetPhoneMetrics();
                     ResetPhone();
                 }
             }
@@ -114,12 +111,12 @@ public class PhoneCallTask : MonoBehaviour
             {
                 if (audioSource != null)
                 {
-                    audioSource.clip = failureSound;
-                    audioSource.Play();
+                    PlayAudioClipAndWait(failureSound);
+                    SetPhoneMetrics();
                     ResetPhone();
                 }
             }
-            SetPhoneMetrics();
+            
         }
     }
 
@@ -135,14 +132,7 @@ public class PhoneCallTask : MonoBehaviour
         audioSource.loop = false;
         audioSource.clip = clip;
         audioSource.Play();
-
-        // Wait until the audio clip finishes playing
         yield return new WaitForSeconds(clip.length);
-
-        // Once the audio clip has finished playing, resume the execution
-        Debug.Log("AudioClip has finished playing.");
-        
-        // Optionally, you can perform additional actions here after the audio clip finishes playing
     }
 
 
