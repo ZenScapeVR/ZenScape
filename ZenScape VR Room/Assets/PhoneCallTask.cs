@@ -18,9 +18,9 @@ public class PhoneCallTask : MonoBehaviour
     private Vector3 originalPosition; 
     public AudioClip pickUpSound;
     public TextMeshPro phoneMetrics;
-    public int attempts = 0;
-    public int correct = 0;
-    public bool waitingForReturn = false;
+    private int attempts = 0;
+    private int correct = 0;
+    private bool waitingForReturn = false;
 
     /* right now, this task triggers every 30 seconds. */
 
@@ -124,6 +124,7 @@ public class PhoneCallTask : MonoBehaviour
     {
         if (isCallPickedUp)
         {
+            attempts++;
             if ((!isCallSpam && !hungUp) || (isCallSpam && hungUp))
             {
                 if (audioSource != null)
