@@ -20,17 +20,40 @@ public class PhoneCallTask : MonoBehaviour
     public TextMeshPro phoneMetrics;
     public int attempts = 0;
     public int correct = 0;
+    public bool waitingForReturn = false;
+
+    /* right now, this task triggers every 30 seconds. */
 
     private void Start()
     {
         originalPosition = transform.position;
-        // Check if an AudioSource component is attached, if not, attach one
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-        PhoneRing();
+
+
+        StartCoroutine(ScheduleTask(30f));
+    }
+
+    IEnumerator ScheduleTask(float seconds)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(seconds); // Wait for 30 seconds
+            StartTask(); // Call the StartTask method
+        }
+    }
+
+    public void StartTask(){
+        transform.position = originalPosition;
+        isRinging = true;
+        isCallPickedUp = false;
+        if (!isCallPickedUp)  // Only start ringing if the phone is not picked up
+        {
+            PhoneRing();
+        }
     }
 
     private void Update()
@@ -59,12 +82,11 @@ public class PhoneCallTask : MonoBehaviour
     {
         isRinging = false;
         audioSource.Stop();
-        PickUpPhone();
+        StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { PickUpPhone();}));
     }
 
     private void PickUpPhone()
     {
-        // StartCoroutine(PlayAudioClipAndWait(pickUpSound));
         isCallPickedUp = true;
         isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
 
@@ -86,10 +108,15 @@ public class PhoneCallTask : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("On trigger enter triggered");
-        if (other == hangUpCollider)
+        if(waitingForReturn && other == hangUpCollider){
+            StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { 
+                ResetPhone();
+                waitingForReturn = false;
+            }));
+        }
+        else if (other == hangUpCollider)
         {
-            // StartCoroutine(PlayAudioClipAndWait(pickUpSound));
-            HandleAction(true);
+            StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { HandleAction(true);}));
         }
     }
 
@@ -102,37 +129,43 @@ public class PhoneCallTask : MonoBehaviour
                 if (audioSource != null)
                 {
                     correct++;
-                    PlayAudioClipAndWait(successSound);
+                    StartCoroutine(PlayAudioClipAndWait(successSound, () => {
                     SetPhoneMetrics();
-                    ResetPhone();
+                    if(hungUp){
+                        ResetPhone();
+                    }else{
+                        waitingForReturn = true;
+                    }
+                    }));
                 }
             }
             else
             {
                 if (audioSource != null)
                 {
-                    PlayAudioClipAndWait(failureSound);
-                    SetPhoneMetrics();
-                    ResetPhone();
+                    StartCoroutine(PlayAudioClipAndWait(failureSound, () => {
+                        SetPhoneMetrics();
+                        ResetPhone();
+                    }));
                 }
             }
-            
         }
     }
 
-    private void ResetPhone(){
+    private void ResetPhone()
+    {
         transform.position = originalPosition;
         isRinging = true;
         isCallPickedUp = false;
-        PhoneRing();
     }
 
-    private IEnumerator PlayAudioClipAndWait(AudioClip clip)
+    private IEnumerator PlayAudioClipAndWait(AudioClip clip, System.Action callback)
     {
         audioSource.loop = false;
         audioSource.clip = clip;
         audioSource.Play();
         yield return new WaitForSeconds(clip.length);
+        callback?.Invoke();
     }
 
 
@@ -143,9 +176,10 @@ public class PhoneCallTask : MonoBehaviour
         {
             accuracy = (correct / attempts);
         }
-        accuracy = Mathf.Round(accuracy * 100) / 100;
+        accuracy = Mathf.Round(accuracy * 100);
         phoneMetrics.text = "Phone Call Task:\n" +
             "Answer calls as they come in before they go to voicemail! Hang up the phone if the call seems like spam, otherwise forward it with the green button.\n\n" +
             "Accuracy: " + accuracy.ToString("0.00"); // Format accuracy to display two decimal places
     }
+
 }
