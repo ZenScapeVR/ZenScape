@@ -12,8 +12,8 @@ public class LightFlicker : MonoBehaviour
 
     private void Start()
     {
-        finalCount = Random.Range(30, 45);
-        StartEvent();
+        finalCount = 750;
+        //StartEvent();
     }
 
     void Update()

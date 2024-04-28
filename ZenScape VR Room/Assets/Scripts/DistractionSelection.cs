@@ -8,6 +8,7 @@ public class DistractionSelection : MonoBehaviour
     public int Difficulty = 0;
     public float HeartRate = 89;
     public string SelectedDistraction;
+    [SerializeField] private ZenscapeTimer timer; 
 
     // low
     //public GameObject FlickeringLights;
@@ -15,19 +16,19 @@ public class DistractionSelection : MonoBehaviour
     //public GameObject QuietConversation;
     [SerializeField] private ConversationScript ConversationScript;
     //public GameObject FanBuzzing;
-    [SerializeField] private AlarmClockDistraction FanBuzzScript;
+    [SerializeField] private FanBuzzingManager FanBuzzScript;
     // medium
     //public GameObject AlarmClock;
     [SerializeField] private AlarmClockDistraction AlarmClockScript;
     //public GameObject MonitorStatic;
-    [SerializeField] private TVStatic TVStatic;
+    [SerializeField] private TVStaticManager TVStatic;
     //public GameObject Ambulance;
     [SerializeField] private  AmbulanceDistraction AmbulanceScript;
     // high
     //public GameObject HeartBeat;
     [SerializeField] private HeartbeatDistraction HeartBeatScript;
     //public GameObject FireAlarm;
-    [SerializeField] private FireAlarmScript FireAlarmScript;
+    [SerializeField] private FireAlarmManager FireAlarmScript;
     //public GameObject Earthquake;
 
     private enum DIFFICULTY_LEVEL
@@ -36,32 +37,37 @@ public class DistractionSelection : MonoBehaviour
         MEDIUM,
         HARD
     };
-    public GameObject Distraction;
     // Can set all game objects here to call when selected
 
     void Start()
     {
         // remove once implemented
-        GetHeartRate();
+        timer.TimeRemaining = 30;
+        // comment next line out for full game
+        // GetHeartRate();
     }
 
     void Update()
     {
         // check ZenscapeTimer and call GetHeartRate() at certain times
+        if (timer.TimeRemaining <= 0)
+            GetHeartRate();
     }
     
     // select distraction
     public void GetHeartRate()
     {
+        timer.TimeRemaining = 30;
+
         DIFFICULTY_LEVEL level = DIFFICULTY_LEVEL.EASY;
         
         // may need to change values after testing, these are temporary
         // high heartrate
-        if (HeartRate >= 88 || Difficulty == 3) { level = DIFFICULTY_LEVEL.HARD; }
+        if (HeartRate >= 88) { level = DIFFICULTY_LEVEL.HARD; }
         // medium heartrate
-        else if (HeartRate >=  74 || Difficulty == 2)  { level = DIFFICULTY_LEVEL.MEDIUM; }
+        if (HeartRate <= 87 && HeartRate >=  74)  { level = DIFFICULTY_LEVEL.MEDIUM; }
         // low heartrate
-        else { level = DIFFICULTY_LEVEL.EASY; }
+        if (HeartRate <= 73 && HeartRate >= 60) { level = DIFFICULTY_LEVEL.EASY; }
 
         SelectDistraction(level);
     }
@@ -103,7 +109,7 @@ public class DistractionSelection : MonoBehaviour
             case DIFFICULTY_LEVEL.HARD:
                 // pick hard distraction
                 // { fire alarm, earthquake, heartbeat }
-                selectedNum = rand.Next(7, 9);
+                selectedNum = rand.Next(7, 8);
                 selectedDistraction = distractions[selectedNum];
                 break;
         }
