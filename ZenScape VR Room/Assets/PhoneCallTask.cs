@@ -77,8 +77,21 @@ public class PhoneCallTask : MonoBehaviour
         audioSource.Play();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the object entering the trigger is the hangup collider
+         Debug.Log("On trigger enter triggered");
+        if (other == hangUpCollider)
+        {
+            // Handle the action for the phone being hung up
+            HandleAction(true);
+        }
+    }
+
     public void HandleAction(bool hungUp)
     {
+        Debug.Log("HandleAction called with hungUp: " + hungUp);
+
         if (isCallPickedUp)
         {
             if ((!isCallSpam && !hungUp) || (isCallSpam && hungUp))
