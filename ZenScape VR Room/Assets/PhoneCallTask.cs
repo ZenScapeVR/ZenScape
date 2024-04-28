@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using TMPro;
 public class PhoneCallTask : MonoBehaviour
 {
     public AudioClip[] spamCallClips;
@@ -13,9 +13,16 @@ public class PhoneCallTask : MonoBehaviour
     public AudioClip ring; // Assign your phone ringing sound clip in the Unity Editor
     public Collider hangUpCollider; // Assign your hang up collider in the Unity Editor
     private bool isRinging = true;
+    private Vector3 originalPosition; 
+    public AudioClip pickUpSound;
+    public TextMeshPro phoneMetrics;
+    public int attempts = 0;
+    public int correct = 0;
 
     private void Start()
     {
+        originalPosition = transform.position;
+        SetPhoneMetrics();
         // Check if an AudioSource component is attached, if not, attach one
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -23,15 +30,7 @@ public class PhoneCallTask : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         }
 
-        if (ring != null)
-        {
-            // the phone is in a position to ring!!!
-            PhoneRing();
-        }
-        else
-        {
-            Debug.LogError("Ring sound clip is not assigned!");
-        }
+        PhoneRing();
     }
 
     private void Update()
@@ -44,10 +43,15 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PhoneRing()
     {
-        isRinging = true;
-        audioSource.clip = ring;
-        audioSource.loop = true;
-        audioSource.Play();
+        if(ring != null){
+            isRinging = true;
+            audioSource.clip = ring;
+            audioSource.loop = true;
+            audioSource.Play();
+        }else
+        {
+            Debug.LogError("Ring sound clip is not assigned!");
+        }
     }
 
     private void StopPhoneRing()
@@ -59,6 +63,7 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PickUpPhone()
     {
+        PlayAudioClipAndWait(pickUpSound);
         isCallPickedUp = true;
         isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
 
@@ -79,11 +84,10 @@ public class PhoneCallTask : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object entering the trigger is the hangup collider
-         Debug.Log("On trigger enter triggered");
+        Debug.Log("On trigger enter triggered");
         if (other == hangUpCollider)
         {
-            // Handle the action for the phone being hung up
+            PlayAudioClipAndWait(pickUpSound);
             HandleAction(true);
         }
     }
@@ -98,6 +102,7 @@ public class PhoneCallTask : MonoBehaviour
             {
                 if (audioSource != null)
                 {
+                    correct++;
                     audioSource.clip = successSound;
                     audioSource.Play();
                     ResetPhone();
@@ -112,8 +117,37 @@ public class PhoneCallTask : MonoBehaviour
                     ResetPhone();
                 }
             }
+            SetPhoneMetrics();
         }
     }
 
-    private void ResetPhone(){}
+    private void ResetPhone(){
+        transform.position = originalPosition;
+        isRinging = true;
+        isCallPickedUp = false;
+        PhoneRing();
+    }
+
+
+    private void PlayAudioClipAndWait(AudioClip clip)
+    {
+        audioSource.loop = false;
+        audioSource.clip = clip;
+        audioSource.Play();
+        while (audioSource.isPlaying){}
+        Debug.Log("AudioClip has finished playing.");
+    }
+
+    private void SetPhoneMetrics()
+    {
+        float accuracy = 1.0f;
+        if (attempts != 0)
+        {
+            accuracy = (correct / attempts);
+        }
+        accuracy = Mathf.Round(accuracy * 100) / 100;
+        phoneMetrics.text = "Phone Call Task:\n" +
+            "Answer calls as they come in before they go to voicemail! Hang up the phone if the call seems like spam, otherwise forward it with the green button.\n\n" +
+            "Accuracy: " + accuracy.ToString("0.00"); // Format accuracy to display two decimal places
+    }
 }
