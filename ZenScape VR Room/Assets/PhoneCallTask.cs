@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using System.Collections; // Add this line to use coroutines
+
 public class PhoneCallTask : MonoBehaviour
 {
     public AudioClip[] spamCallClips;
@@ -22,7 +24,6 @@ public class PhoneCallTask : MonoBehaviour
     private void Start()
     {
         originalPosition = transform.position;
-        SetPhoneMetrics();
         // Check if an AudioSource component is attached, if not, attach one
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -44,6 +45,7 @@ public class PhoneCallTask : MonoBehaviour
     private void PhoneRing()
     {
         if(ring != null){
+            SetPhoneMetrics();
             isRinging = true;
             audioSource.clip = ring;
             audioSource.loop = true;
@@ -63,7 +65,7 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PickUpPhone()
     {
-        PlayAudioClipAndWait(pickUpSound);
+        StartCoroutine(PlayAudioClipAndWait(pickUpSound));
         isCallPickedUp = true;
         isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
 
@@ -87,7 +89,7 @@ public class PhoneCallTask : MonoBehaviour
         Debug.Log("On trigger enter triggered");
         if (other == hangUpCollider)
         {
-            PlayAudioClipAndWait(pickUpSound);
+            StartCoroutine(PlayAudioClipAndWait(pickUpSound));
             HandleAction(true);
         }
     }
@@ -128,15 +130,21 @@ public class PhoneCallTask : MonoBehaviour
         PhoneRing();
     }
 
-
-    private void PlayAudioClipAndWait(AudioClip clip)
+    private IEnumerator PlayAudioClipAndWait(AudioClip clip)
     {
         audioSource.loop = false;
         audioSource.clip = clip;
         audioSource.Play();
-        while (audioSource.isPlaying){}
+
+        // Wait until the audio clip finishes playing
+        yield return new WaitForSeconds(clip.length);
+
+        // Once the audio clip has finished playing, resume the execution
         Debug.Log("AudioClip has finished playing.");
+        
+        // Optionally, you can perform additional actions here after the audio clip finishes playing
     }
+
 
     private void SetPhoneMetrics()
     {
