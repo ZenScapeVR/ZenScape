@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using TMPro;
 
-public class TypingButton : MonoBehaviour
+public class PhoneForwardButton : MonoBehaviour
 {
     public GameObject button;
     public UnityEvent onPress;
@@ -12,14 +11,8 @@ public class TypingButton : MonoBehaviour
     GameObject presser;
     AudioSource audioSource;
     public AudioClip click;
-
-    public PhoneCallTask phoneCallTask;
-
+    public PhoneCallTask phoneCallTask; // Reference to the PhoneCallTask script
     private bool isPressed;
-
-    public TextMeshPro textMesh; // Reference to the 3D TextMeshPro object
-    public char characterToAdd; // Character to add when pressed (0-9 or delete)
-
     Vector3 originalPosition; // Store the original position of the button
 
     void Start()
@@ -45,22 +38,7 @@ public class TypingButton : MonoBehaviour
             button.transform.Translate(Vector3.down * 0.015f); // Adjust the button press depth as needed
             onPress.Invoke();
             PlaySound(click);
-
-            // Append character to text
-            if (textMesh != null)
-            {
-                if (characterToAdd == 'x') // Check for backspace identifier
-                {
-                    if (textMesh.text.Length > 0)
-                    {
-                        textMesh.text = textMesh.text.Substring(0, textMesh.text.Length - 1);
-                    }
-                }
-                else
-                {
-                    textMesh.text += characterToAdd;
-                }
-            }
+            phoneCallTask.HandleAction(false);
         }
     }
 

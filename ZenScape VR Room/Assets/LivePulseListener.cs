@@ -11,6 +11,18 @@ public class LivePulseListener : MonoBehaviour
     private string activeFirebaseRef = "active_user";
     private string loggedInFirebaseRef = "zenscape_users";
 
+    [System.Serializable]
+    public class ActiveUserData
+    {
+        public string userId;
+    }
+
+    [System.Serializable]
+    public class UserData
+    {
+        public int live_pulse;
+    }
+
     // Reference to the TextMeshPro component
     public TextMeshProUGUI textMeshPro;
 
@@ -98,8 +110,8 @@ public class LivePulseListener : MonoBehaviour
     {
         try
         {
-            dynamic jsonObject = JsonConvert.DeserializeObject(activeUserJson);
-            return jsonObject["userId"];
+            ActiveUserData jsonObject = JsonConvert.DeserializeObject<ActiveUserData>(activeUserJson);
+            return jsonObject.userId;
         }
         catch (System.Exception e)
         {
@@ -113,8 +125,8 @@ public class LivePulseListener : MonoBehaviour
     {
         try
         {
-            dynamic userData = JsonConvert.DeserializeObject(userDataJson);
-            return userData["live_pulse"];
+            UserData userData = JsonConvert.DeserializeObject<UserData>(userDataJson);
+            return userData.live_pulse;
         }
         catch (System.Exception e)
         {
