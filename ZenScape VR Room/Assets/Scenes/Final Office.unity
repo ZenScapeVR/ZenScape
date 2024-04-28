@@ -1152,11 +1152,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211484959}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0902623, y: 0.06696409, z: 0.22013077}
-  m_Center: {x: 0.06534382, y: 0.009836794, z: -0.024469672}
+  m_Size: {x: 0.0902623, y: 0.045763202, z: 0.22013077}
+  m_Center: {x: 0.06534382, y: -0.000763627, z: -0.024469672}
 --- !u!4 &213458374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9201478901774978607, guid: c41d6ef0541b6014cafdb449b96ba6d0, type: 3}
@@ -2398,7 +2398,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh142546
+  m_Name: pb_Mesh53128
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10518,16 +10518,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Difficulty: 0
   HeartRate: 89
-  SelectedDistraction: {fileID: 0}
-  FlickeringLights: {fileID: 6701868586939378992, guid: e9b73c151f931f040969060813f85a79, type: 3}
-  QuietConversation: {fileID: 0}
-  FanBuzzing: {fileID: 4966022216945382064, guid: a95a727f6f7ec5e4fab35d97cd486329, type: 3}
-  AlarmClock: {fileID: 9201478901774978593, guid: c41d6ef0541b6014cafdb449b96ba6d0, type: 3}
-  MonitorStatic: {fileID: 1600703565}
-  Crowd: {fileID: 0}
-  HeartBeat: {fileID: 0}
-  FireAlarm: {fileID: 0}
-  Earthquake: {fileID: 0}
+  SelectedDistraction: 
+  LightFlickerScript: {fileID: 0}
+  ConversationScript: {fileID: 0}
+  FanBuzzScript: {fileID: 0}
+  AlarmClockScript: {fileID: 0}
+  TVStatic: {fileID: 0}
+  AmbulanceScript: {fileID: 0}
+  HeartBeatScript: {fileID: 0}
+  FireAlarmScript: {fileID: 0}
   Distraction: {fileID: 0}
 --- !u!4 &1381850501
 Transform:
@@ -11522,11 +11521,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3313297374440267080, guid: 26e284318d0fb2549b356c608e3a80dd, type: 3}
   m_PrefabInstance: {fileID: 1586171210}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1600703565 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1195644526965492512, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
-  m_PrefabInstance: {fileID: 1195644526035978093}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1600703566 stripped
 Transform:
