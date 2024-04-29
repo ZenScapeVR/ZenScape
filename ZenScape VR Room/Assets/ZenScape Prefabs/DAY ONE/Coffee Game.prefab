@@ -752,11 +752,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Touch coffee maker to spawn cup.
+  m_text: 'Drag coffee pot to mug to pour coffee.
 
-
-    Touch coffee pot to mug to pour
-    coffee.'
+    Wait until green to drink!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d65afeb81b10a7b4e873c3ad09efb6f6, type: 2}
   m_sharedMaterial: {fileID: -8255879185314760934, guid: d65afeb81b10a7b4e873c3ad09efb6f6, type: 2}

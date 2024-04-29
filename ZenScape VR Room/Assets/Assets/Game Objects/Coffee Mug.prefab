@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 157272338733383596}
   - component: {fileID: 4254513338052445377}
   - component: {fileID: 1832018527069773946}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Coffee Mug
   m_TagString: CoffeeMug
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ MonoBehaviour:
   Blue: {fileID: 2100000, guid: 5750f18e988befc4f9a61a61a7da484a, type: 2}
   Grey: {fileID: 2100000, guid: 284c0adf047530442a7e23b4365615aa, type: 2}
   timer: {fileID: 1832018527069773946}
-  manager: {fileID: 0}
+  status: 0
 --- !u!114 &3691382073983169389
 MonoBehaviour:
   m_ObjectHideFlags: 0
