@@ -13,7 +13,7 @@ public class TaskSelection : MonoBehaviour
     public bool AllTasksComplete = false;
     public int timerLength;
     public ZenscapeTimer timer;
-    public TextMeshPro display;
+    public TextMeshProUGUI display;
     public int numberOfTasks = 3;
     private int tasksAssigned = 0;
     public GameObject[] Tasks; // all tasks available throughout entire game
@@ -101,8 +101,8 @@ void SpawnTask()
 
 
     public void UpdateDisplay(){
-        display.text =  "Time Remaining: " +  timer.TimeRemaining
-        +   "\nTasks Active:\n";
+        display.text =  "\tTime Left: " +  timer.TimeRemaining
+        +   "\n\tTasks To Do:\n";
         foreach( GameObject task in liveTasks){
             display.text += task.name + "\n";
         }
