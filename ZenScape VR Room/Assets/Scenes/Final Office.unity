@@ -1525,6 +1525,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Food_Apple_Red
       objectReference: {fileID: 0}
+    - target: {fileID: 7403637470572766316, guid: 74d706ff2cc4eac4c85e825b7ac6d86b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7923188134910803670, guid: 74d706ff2cc4eac4c85e825b7ac6d86b, type: 3}
       propertyPath: m_RootOrder
       value: 36
@@ -8329,6 +8333,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Notebook_Brown
       objectReference: {fileID: 0}
+    - target: {fileID: 1988935485136464992, guid: 0598faac6c7f62f4f92b2f771f20ca2d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8757627581427121588, guid: 0598faac6c7f62f4f92b2f771f20ca2d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0598faac6c7f62f4f92b2f771f20ca2d, type: 3}
 --- !u!1 &1814157207 stripped
@@ -8525,6 +8537,10 @@ PrefabInstance:
     - target: {fileID: 497524628256574180, guid: 39769aa81defa294a988cff8024333a6, type: 3}
       propertyPath: m_Name
       value: Book_A_Brown
+      objectReference: {fileID: 0}
+    - target: {fileID: 497524628256574180, guid: 39769aa81defa294a988cff8024333a6, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 985233542953668702, guid: 39769aa81defa294a988cff8024333a6, type: 3}
       propertyPath: m_RootOrder
@@ -19478,7 +19494,7 @@ GameObject:
   - component: {fileID: 8078191118401341429}
   - component: {fileID: 8078191118401341428}
   - component: {fileID: 8078191118401341427}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pCube264
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30915,6 +30931,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coffee Game
       objectReference: {fileID: 0}
+    - target: {fileID: 5567195334815119594, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5567195334815119595, guid: 885fedd032f3728478ca549977c523db, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -30963,17 +30983,37 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.111999944
       objectReference: {fileID: 0}
+    - target: {fileID: 5567195334954697199, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5567195335033600208, guid: 885fedd032f3728478ca549977c523db, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.477
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567195335033600211, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5567195335907622802, guid: 885fedd032f3728478ca549977c523db, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.255
       objectReference: {fileID: 0}
+    - target: {fileID: 5567195335907622829, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567195336115222538, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5567195336115222539, guid: 885fedd032f3728478ca549977c523db, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.10599995
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567195336236934403, guid: 885fedd032f3728478ca549977c523db, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 885fedd032f3728478ca549977c523db, type: 3}
@@ -31947,7 +31987,7 @@ GameObject:
   - component: {fileID: 5871891910786924512}
   - component: {fileID: 5871891910786924511}
   - component: {fileID: 5871891910786924510}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: polySurface208
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40530,7 +40570,7 @@ GameObject:
   - component: {fileID: 8334197725680252610}
   - component: {fileID: 8334197725680252609}
   - component: {fileID: 8334197725680252608}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pCube263
   m_TagString: Untagged
   m_Icon: {fileID: 0}
