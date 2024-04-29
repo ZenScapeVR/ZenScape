@@ -30,7 +30,8 @@ public class TaskSelection : MonoBehaviour
         }
         AllTasksComplete = false;
         timer.TimeRemaining = timerLength; // 4 minutes
-        availableTasks = Tasks;
+        availableTasks = new GameObject[Tasks.Length];
+        System.Array.Copy(Tasks, availableTasks, Tasks.Length);
         // Start coroutine to spawn tasks with random time delay
         StartCoroutine(SpawnTasksWithDelay());
     }
@@ -44,7 +45,19 @@ public class TaskSelection : MonoBehaviour
         yield return new WaitForSeconds(timeBetweenTasks);
         UnityEngine.Debug.Log("Task Spawn waiting for " + timeBetweenTasks + " seconds...");
         // Spawn a task
+        ShuffleAvailableTasks();
         SpawnTask();
+    }
+}
+
+void ShuffleAvailableTasks()
+{
+    for (int i = 0; i < availableTasks.Length; i++)
+    {
+        int randomIndex = Random.Range(i, availableTasks.Length);
+        GameObject temp = availableTasks[i];
+        availableTasks[i] = availableTasks[randomIndex];
+        availableTasks[randomIndex] = temp;
     }
 }
 
@@ -153,6 +166,7 @@ void SpawnTask()
 
     public void EndDay(){
         UnityEngine.Debug.Log("All tasks completed, day over!");
+        UpdateDisplay();
         // when the day is over, we need to record the accuracy metrics into firebase.
     }
 }
