@@ -13,6 +13,7 @@ public class PhoneTaskParent : MonoBehaviour
         {
             UnityEngine.Debug.Log("PHONE PARENT OBJ: " + gameObject.name);
             taskSelection.EndTask(gameObject, accuracy);
+            Destroy(gameObject);
         }
         else
         {

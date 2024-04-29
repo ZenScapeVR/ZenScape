@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections;
@@ -121,11 +122,13 @@ void SpawnTask()
         
         foreach(GameObject task in Tasks){
             if(tempTaskName == task.name){
+                UnityEngine.Debug.Log("FOUND MATCHING TASK NAME!");
                 // Remove the task from liveTasks
                 List<GameObject> tempList = new List<GameObject>(liveTasks);
                 tempList.Remove(task);
                 liveTasks = tempList.ToArray();
                 // Add the task back to availableTasks
+                  UnityEngine.Debug.Log("Adding: " + task.name + " back to available tasks.");
                 List<GameObject> tempList2 = new List<GameObject>(availableTasks);
                 tempList2.Add(task);
                 availableTasks = tempList2.ToArray();

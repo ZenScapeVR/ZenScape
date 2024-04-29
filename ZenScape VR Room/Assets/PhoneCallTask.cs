@@ -145,7 +145,9 @@ public class PhoneCallTask : MonoBehaviour
 
     private void ResetPhone()
     {
-       taskParent.EndGame(accuracy);
+        Destroy(GetComponent<Rigidbody>());
+        taskParent.EndGame(accuracy);
+        Destroy(gameObject); // try to destroy the phone
     }
     
     private IEnumerator PlayAudioClipAndWait(AudioClip clip, System.Action callback)
