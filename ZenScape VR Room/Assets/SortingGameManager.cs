@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 public class SortingGameManager : MonoBehaviour
 {
+    public TaskSelection manager;
     public GameObject sortingObjectsContainer; // Reference to the Sorting Objects game object
     public GameObject sortingObjectsPrefab; // Array of sorting object prefabs to respawn
     public AudioClip gameEndSound; // Sound to play when the game ends
@@ -24,6 +25,10 @@ public class SortingGameManager : MonoBehaviour
         // Initialize the number of sorting objects remaining
         if (sortingObjectsContainer != null)
         {
+            correct = 0;
+            incorrect = 0;
+            attempts = 0;
+            accuracy = 1f;
             sortingObjectsRemaining = sortingObjectsContainer.transform.childCount;
         }
     }
@@ -31,7 +36,6 @@ public class SortingGameManager : MonoBehaviour
     // Called when a bad sort is made
     public void BadSort()
     {
-        
         incorrect++;
         attempts++;
         UpdateMetrics();
@@ -57,11 +61,9 @@ public class SortingGameManager : MonoBehaviour
         {
             accuracy = 1f;
         }
-
         // Update UI text
         metrics.text = "Correct: " + correct + "\nIncorrect: " + incorrect + "\nAccuracy: " + accuracy.ToString("P0");
     }
-
 
     // Function to be called when a sorting object is destroyed
     public void SortingObjectDestroyed()
@@ -79,20 +81,25 @@ public class SortingGameManager : MonoBehaviour
     void EndGame()
     {
         // Play game end sound
-        correct = 0;
-        incorrect = 0;
-        attempts = 0;
-        accuracy = 1f;
         UpdateMetrics();
         PlaySound(gameEndSound);
-        // Instantiate a new instance of sortingObjectsPrefab
-        GameObject newSortingObjects = Instantiate(sortingObjectsPrefab, sortingObjectsContainer.transform);
+        UnityEngine.Debug.Log("ENDING SORTING GAME!");
 
-        // Update sortingObjectsContainer and sortingObjectsRemaining
-        sortingObjectsContainer = newSortingObjects;
-        sortingObjectsRemaining = sortingObjectsContainer.transform.childCount;
+        // Find the TaskSelection game object
+        TaskSelection taskSelection = GameObject.FindObjectOfType<TaskSelection>();
+
+        // Check if TaskSelection was found
+        if (taskSelection != null)
+        {
+            // Call EndTask on the TaskSelection object
+            taskSelection.EndTask(gameObject, accuracy);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("TaskSelection object not found!");
+        }
     }
-    
+        
     private void PlaySound(AudioClip clip)
     {
         if (clip != null && audioSource != null)

@@ -1,49 +1,135 @@
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class NewBehaviourScript : MonoBehaviour
+public class TaskSelection : MonoBehaviour
 {
+    public AudioClip newTaskAlert; // Audio clip to play when a new task is assigned
     public int Day = 1;
     public bool AllTasksComplete = false;
-    public GameObject Task;
+    public int timerLength;
     public ZenscapeTimer timer;
-
+    public TextMeshPro display;
+    public int numberOfTasks = 3;
+    private int tasksAssigned = 0;
+    public GameObject[] Tasks; // all tasks available throughout entire game
+    private GameObject[] liveTasks; // all tasks currently active for the user
+    private GameObject[] availableTasks; // all tasks NOT TAKEN or ENDED
     void Start()
     {
-        Day = 1;
+        liveTasks = new GameObject[0]; 
+        // Attach an AudioSource component if one doesn't exist
+        if (GetComponent<AudioSource>() == null)
+        {
+            gameObject.AddComponent<AudioSource>();
+        }
         AllTasksComplete = false;
-        timer.TimeRemaining = 240; // 4 minutes
+        timer.TimeRemaining = timerLength; // 4 minutes
+        availableTasks = Tasks;
+        // Start coroutine to spawn tasks with random time delay
+        StartCoroutine(SpawnTasksWithDelay());
     }
 
-    void Update()
+   IEnumerator SpawnTasksWithDelay()
+{
+    while (!AllTasksComplete)
     {
-        // for each task (game object), we need to check if complete to move to next day (level)
-        if(AllTasksComplete)
+        // Generate a random time between tasks
+        float timeBetweenTasks = Random.Range(5f, 10f);
+        yield return new WaitForSeconds(timeBetweenTasks);
+        UnityEngine.Debug.Log("Task Spawn waiting for " + timeBetweenTasks + " seconds...");
+        // Spawn a task
+        SpawnTask();
+    }
+}
+
+void SpawnTask()
+{
+    if (tasksAssigned < numberOfTasks)
+    {
+        if (availableTasks.Length > 0)
         {
-            Day++;
-            timer.TimeRemaining = 240;
-            // end current level
+            // Randomly select a task from availableTasks array
+            int randomIndex = Random.Range(0, availableTasks.Length);
+            GameObject taskPrefab = availableTasks[randomIndex];
+
+            UnityEngine.Debug.Log("Task Chosen! Task is: " + taskPrefab.name);
+            // Instantiate the selected task
+            GameObject newTask = Instantiate(taskPrefab, taskPrefab.transform.position, taskPrefab.transform.rotation);
+
+            // Add the spawned task to liveTasks
+            List<GameObject> tempLiveList = new List<GameObject>(liveTasks);
+            tempLiveList.Add(newTask);
+            liveTasks = tempLiveList.ToArray();
+            tasksAssigned++;
+
+            // Remove the spawned task from availableTasks
+            List<GameObject> tempAvailList = new List<GameObject>(availableTasks);
+            tempAvailList.RemoveAt(randomIndex);
+            availableTasks = tempAvailList.ToArray();
+            UpdateDisplay();
+
+            // Play newTaskAlert audio clip
+            if (newTaskAlert != null)
+            {
+                AudioSource audioSource = GetComponent<AudioSource>();
+                audioSource.PlayOneShot(newTaskAlert);
+                UnityEngine.Debug.Log("Played newTaskAlert audio clip.");
+            }
         }
-        SelectedTask();
+        else
+        {
+            StartCoroutine(WaitForTaskToBecomeAvailable());
+        }
+    }
+    else
+    {
+        UnityEngine.Debug.Log("All tasks assigned.");
+    }
+}
+
+    IEnumerator WaitForTaskToBecomeAvailable()
+    {
+        yield return new WaitUntil(() => availableTasks.Length > 0);
+        SpawnTask();
     }
 
-    void SelectedTask()
-    {
-        switch (Day)
-        {
-            case 1:
-                // first day/level, easy day, spawn tasks so user gets a feel for the game
-                break;
-            case 2:
-                // second day, bump up task frequency
-                break;
-            case 3:
-                // third day, bump up task frequency
-                break;
-            case 4:
-                // end of game, go to final stats screen
-                break;
+
+    public void UpdateDisplay(){
+        display.text = "Tasks Active:\n";
+        foreach( GameObject task in liveTasks){
+            display.text += task.name + "\n";
         }
+    }
+
+    public void EndTask(GameObject taskObject, float accuracy)
+    {
+        UnityEngine.Debug.Log("End task called with game: " + taskObject.name + " and " + accuracy);
+        // Remove the task from liveTasks
+        List<GameObject> tempList = new List<GameObject>(liveTasks);
+        tempList.Remove(taskObject);
+        liveTasks = tempList.ToArray();
+
+        // Add the task back to availableTasks
+        List<GameObject> tempList2 = new List<GameObject>(availableTasks);
+        tempList2.Add(taskObject);
+        availableTasks = tempList2.ToArray();
+
+        Destroy(taskObject); // rid of task.
+
+        // Check if all tasks are complete
+        if (liveTasks.Length == 0 && tasksAssigned == numberOfTasks)
+        {
+            AllTasksComplete = true;
+            EndDay();
+            // Perform any actions needed when all tasks are complete
+        }
+    }
+
+    public void EndDay(){
+        UnityEngine.Debug.Log("All tasks completed, day over!");
+        // when the day is over, we need to record the accuracy metrics into firebase.
     }
 }
