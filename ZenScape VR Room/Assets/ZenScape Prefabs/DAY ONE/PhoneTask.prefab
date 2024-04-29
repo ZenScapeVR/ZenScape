@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1969615104569422343}
   - component: {fileID: 1969615104569422344}
   - component: {fileID: 1969615104569422345}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PhoneBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8513,7 +8513,7 @@ GameObject:
   - component: {fileID: 1969615104584940971}
   - component: {fileID: 1969615104584940972}
   - component: {fileID: 1969615104584940973}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PhoneHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13498,7 +13498,7 @@ GameObject:
   - component: {fileID: 1969615104616190367}
   - component: {fileID: 1969615104616190432}
   - component: {fileID: 1969615104616190433}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13676,7 +13676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969615104870328069}
   - component: {fileID: 1969615104870328070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HangUpCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13722,7 +13722,7 @@ GameObject:
   - component: {fileID: 1969615105642687364}
   - component: {fileID: 1969615105642687365}
   - component: {fileID: 1969615105642687366}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PhoneMetrics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13894,7 +13894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969615105817763684}
   - component: {fileID: 1969615105817763683}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PhoneTask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13944,7 +13944,7 @@ GameObject:
   - component: {fileID: 1969615106126857439}
   - component: {fileID: 1969615106126857248}
   - component: {fileID: 1969615106126857249}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Press
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14027,7 +14027,7 @@ GameObject:
   - component: {fileID: 1969615106230759003}
   - component: {fileID: 1969615106230759001}
   - component: {fileID: 1969615106230759002}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14108,7 +14108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1969615106246079766}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FwdButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
