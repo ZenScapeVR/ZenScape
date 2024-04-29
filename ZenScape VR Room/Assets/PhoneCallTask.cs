@@ -23,6 +23,7 @@ public class PhoneCallTask : MonoBehaviour
     private int correct = 0;
     private float accuracy = 1.0f;
     private bool waitingForReturn = false;
+    public GameObject taskMainObj;
 
     private void Start()
     {
@@ -39,10 +40,7 @@ public class PhoneCallTask : MonoBehaviour
         transform.position = originalPosition;
         isRinging = true;
         isCallPickedUp = false;
-        if (!isCallPickedUp)  // Only start ringing if the phone is not picked up
-        {
-            PhoneRing();
-        }
+        PhoneRing();
     }
 
     private void Update()
@@ -55,11 +53,12 @@ public class PhoneCallTask : MonoBehaviour
 
     private void PhoneRing()
     {
-        if(ring != null && !isCallPickedUp){
+        if(ring != null){
             SetPhoneMetrics();
             isRinging = true;
             audioSource.clip = ring;
             audioSource.loop = true;
+            UnityEngine.Debug.LogError("PLAYING RING SOUND!");
             audioSource.Play();
         }else
         {
@@ -154,7 +153,7 @@ public class PhoneCallTask : MonoBehaviour
         if (taskSelection != null)
         {
             // Call EndTask on the TaskSelection object
-            taskSelection.EndTask(gameObject, accuracy);
+            taskSelection.EndTask(taskMainObj, accuracy);
         }
         else
         {
