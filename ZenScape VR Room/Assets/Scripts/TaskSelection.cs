@@ -40,7 +40,7 @@ public class TaskSelection : MonoBehaviour
     while (!AllTasksComplete)
     {
         // Generate a random time between tasks
-        float timeBetweenTasks = Random.Range(5f, 10f);
+        float timeBetweenTasks = Random.Range(10f, 15f);
         yield return new WaitForSeconds(timeBetweenTasks);
         UnityEngine.Debug.Log("Task Spawn waiting for " + timeBetweenTasks + " seconds...");
         // Spawn a task
@@ -101,10 +101,15 @@ void SpawnTask()
 
 
     public void UpdateDisplay(){
-        display.text =  "\tTime Left: " +  timer.TimeRemaining
-        +   "\n\tTasks To Do:\n";
-        foreach( GameObject task in liveTasks){
-            display.text += task.name + "\n";
+
+        if(AllTasksComplete){
+            display.text =  "\tAll Tasks Complete! Great Job!"; 
+        }else{
+            display.text =  "\tTime Left: " +  timer.TimeRemaining
+            +   "\n\tTasks To Do:\n\t";
+            foreach( GameObject task in liveTasks){
+                display.text += "- " + task.name + "\n\t";
+            }
         }
     }
 
@@ -133,6 +138,7 @@ void SpawnTask()
                 tempList2.Add(task);
                 availableTasks = tempList2.ToArray();
                 Destroy(taskObject); // rid of task.
+                UpdateDisplay();
             }
         }
         // Check if all tasks are complete
