@@ -13,7 +13,7 @@ public class LightFlicker : MonoBehaviour
     private void Start()
     {
         finalCount = 750;
-        //StartEvent();
+        StartEvent();
     }
 
     void Update()
@@ -29,10 +29,10 @@ public class LightFlicker : MonoBehaviour
     {
         counter++;
         this.gameObject.GetComponent<Light>().enabled = true;
-        timeDelay = Random.Range(0.01f, 0.2f);
+        timeDelay = Random.Range(2f, 4f);
         yield return new WaitForSeconds(timeDelay);
         this.gameObject.GetComponent<Light>().enabled = false;
-        timeDelay = Random.Range(0.01f, 0.2f);
+        timeDelay = Random.Range(2f, 4f);
         yield return new WaitForSeconds(timeDelay);
     }
 
