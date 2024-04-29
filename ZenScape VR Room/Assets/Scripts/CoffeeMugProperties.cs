@@ -12,8 +12,6 @@ public class CoffeeMugProperties : MonoBehaviour
     public ZenscapeTimer timer;
     public int status = 0;
 
-
-
     void Start()
     {
 

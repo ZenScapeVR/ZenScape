@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class HeadScript : MonoBehaviour
 {
-
     public int status;
     private int lastStatus;
     public TextMeshPro metrics;
@@ -31,28 +30,25 @@ public class HeadScript : MonoBehaviour
 
     void UpdateMetrics()
     {
-        //if (attempts != 0)
-        //{
-        //    //accuracy = (float)correct / (float)attempts;
-        //}
-        //else
-        //{
-        //    //accuracy = 1f;
-        //}
-
-        // Update UI text
-        metrics.text = "Coffees Drank: " + coffeesDrank + "\nCoffees Spilt: " + coffeesSpilt;
+        float accuracy = (coffeesDrank / 1f) * 100;
+        metrics.text = "Coffees Drank Correctly: " + coffeesDrank;
+        UnityEngine.Debug.Log("HEAD COLLIDER ENDING COFFEE TASK!");
+        // Find the Coffee game object
+        CoffeeGameParent coffeeGame = GameObject.FindObjectOfType<CoffeeGameParent>();
+        if (coffeeGame != null)
+        {
+            UnityEngine.Debug.Log("coffeeGame PARENT OBJ: " + coffeeGame.name);
+            coffeeGame.EndGame(accuracy);
+        }else{
+            UnityEngine.Debug.LogError("CoffeeGame object not found!");
+        }
     }
 
-    public void DrankCoffee()
+    public void DrankCoffee(bool correct)
     {
-        coffeesDrank++;
-        UpdateMetrics();
-    }
-
-    public void SpiltCoffee()
-    {
-        coffeesSpilt++;
+        if(correct){
+            coffeesDrank++;
+        }
         UpdateMetrics();
     }
 
@@ -75,19 +71,21 @@ public class HeadScript : MonoBehaviour
                 case "RedDark":
                     Debug.Log("Coffee is hot.");
                     PlaySound(failure);
-                    SpiltCoffee();
+                    DrankCoffee(false);
                     Destroy(other.gameObject);
+                    
                     break;
                 case "GreenDark":
                     Debug.Log("Coffee is perfect.");
                     PlaySound(success);
-                    DrankCoffee();
+                    DrankCoffee(true);
                     Destroy(other.gameObject);
+                    
                     break;
                 case "Blue":
                     Debug.Log("Coffee is cold.");
                     PlaySound(failure);
-                    SpiltCoffee();
+                    DrankCoffee(false);
                     Destroy(other.gameObject);
                     break;
                 case "Grey":

@@ -16,16 +16,18 @@ public class CoffeeTask : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartTask();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    // // Update is called once per frame
+    // void Update()
+    // {
+    // }
     
     public void StartTask()
     {
         if(numberOfMugs == 0){
+            numberOfMugs++;
             Instantiate(CoffeeMugObject, SpawnMug.transform.position, Quaternion.identity);
         }else{
             UnityEngine.Debug.Log("Too many coffee mugs, only one at a time is allowed.");
@@ -33,9 +35,9 @@ public class CoffeeTask : MonoBehaviour
         //CoffeeMugObject.GetComponent<Material>() = Grey;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Hands")
-            StartTask();
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.tag == "Hands")
+    //         StartTask();
+    // }
 }
