@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,7 +62,7 @@ void SpawnTask()
 
             // Add the spawned task to liveTasks
             List<GameObject> tempLiveList = new List<GameObject>(liveTasks);
-            tempLiveList.Add(newTask);
+            tempLiveList.Add(taskPrefab);
             liveTasks = tempLiveList.ToArray();
             tasksAssigned++;
 
@@ -106,19 +107,29 @@ void SpawnTask()
 
     public void EndTask(GameObject taskObject, float accuracy)
     {
-        UnityEngine.Debug.Log("End task called with game: " + taskObject.name + " and " + accuracy);
-        // Remove the task from liveTasks
-        List<GameObject> tempList = new List<GameObject>(liveTasks);
-        tempList.Remove(taskObject);
-        liveTasks = tempList.ToArray();
-
-        // Add the task back to availableTasks
-        List<GameObject> tempList2 = new List<GameObject>(availableTasks);
-        tempList2.Add(taskObject);
-        availableTasks = tempList2.ToArray();
-
-        Destroy(taskObject); // rid of task.
-
+        string tempTaskName = taskObject.name;
+        // Check if the task name ends with "(Clone)"
+        if (tempTaskName.EndsWith("(Clone)"))
+        {
+            // If it does, remove "(Clone)" from the end of the name
+            UnityEngine.Debug.Log("Removing task clone substring");
+            tempTaskName = tempTaskName.Substring(0, tempTaskName.Length - 7);
+        }
+        UnityEngine.Debug.Log("End task called with game: " + tempTaskName + " and " + accuracy);
+        
+        foreach(GameObject task in Tasks){
+            if(tempTaskName == task.name){
+                // Remove the task from liveTasks
+                List<GameObject> tempList = new List<GameObject>(liveTasks);
+                tempList.Remove(task);
+                liveTasks = tempList.ToArray();
+                // Add the task back to availableTasks
+                List<GameObject> tempList2 = new List<GameObject>(availableTasks);
+                tempList2.Add(task);
+                availableTasks = tempList2.ToArray();
+                Destroy(taskObject); // rid of task.
+            }
+        }
         // Check if all tasks are complete
         if (liveTasks.Length == 0 && tasksAssigned == numberOfTasks)
         {
@@ -127,6 +138,7 @@ void SpawnTask()
             // Perform any actions needed when all tasks are complete
         }
     }
+
 
     public void EndDay(){
         UnityEngine.Debug.Log("All tasks completed, day over!");
