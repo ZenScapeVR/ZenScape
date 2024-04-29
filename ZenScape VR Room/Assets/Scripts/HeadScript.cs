@@ -8,7 +8,6 @@ public class HeadScript : MonoBehaviour
 {
     public int status;
     private int lastStatus;
-    public TextMeshPro metrics;
     public AudioSource audioSource;
     public AudioClip success;
     public AudioClip failure;
@@ -30,15 +29,12 @@ public class HeadScript : MonoBehaviour
 
     void UpdateMetrics()
     {
-        float accuracy = (coffeesDrank / 1f) * 100;
-        metrics.text = "Coffees Drank Correctly: " + coffeesDrank;
-        UnityEngine.Debug.Log("HEAD COLLIDER ENDING COFFEE TASK!");
-        // Find the Coffee game object
+        // Find the Coffee game object and call its methods there.
         CoffeeGameParent coffeeGame = GameObject.FindObjectOfType<CoffeeGameParent>();
         if (coffeeGame != null)
         {
             UnityEngine.Debug.Log("coffeeGame PARENT OBJ: " + coffeeGame.name);
-            coffeeGame.EndGame(accuracy);
+            coffeeGame.MetricsAndEndGame(coffeesDrank);
         }else{
             UnityEngine.Debug.LogError("CoffeeGame object not found!");
         }
@@ -73,14 +69,12 @@ public class HeadScript : MonoBehaviour
                     PlaySound(failure);
                     DrankCoffee(false);
                     Destroy(other.gameObject);
-                    
                     break;
                 case "GreenDark":
                     Debug.Log("Coffee is perfect.");
                     PlaySound(success);
                     DrankCoffee(true);
                     Destroy(other.gameObject);
-                    
                     break;
                 case "Blue":
                     Debug.Log("Coffee is cold.");

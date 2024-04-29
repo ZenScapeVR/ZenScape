@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fbae5628f075c46bf50aa0117ddc3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoffeeMetrics: {fileID: 6505312865355674779}
 --- !u!1 &6505312866105512053
 GameObject:
   m_ObjectHideFlags: 0
