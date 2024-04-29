@@ -18,6 +18,7 @@ public class TaskSelection : MonoBehaviour
     public GameObject[] Tasks; // all tasks available throughout entire game
     private GameObject[] liveTasks; // all tasks currently active for the user
     private GameObject[] availableTasks; // all tasks NOT TAKEN or ENDED
+
     void Start()
     {
         liveTasks = new GameObject[0]; 
@@ -99,7 +100,8 @@ void SpawnTask()
 
 
     public void UpdateDisplay(){
-        display.text = "Tasks Active:\n";
+        display.text =  "Time Remaining: " +  timer.TimeRemaining
+        +   "\nTasks Active:\n";
         foreach( GameObject task in liveTasks){
             display.text += task.name + "\n";
         }

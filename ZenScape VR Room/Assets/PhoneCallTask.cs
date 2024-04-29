@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 using TMPro;
 using System.Collections; // Add this line to use coroutines
@@ -20,9 +21,8 @@ public class PhoneCallTask : MonoBehaviour
     public TextMeshPro phoneMetrics;
     private int attempts = 0;
     private int correct = 0;
+    private float accuracy = 1.0f;
     private bool waitingForReturn = false;
-
-    /* right now, this task triggers every 30 seconds. */
 
     private void Start()
     {
@@ -32,18 +32,7 @@ public class PhoneCallTask : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-
-
-        StartCoroutine(ScheduleTask(30f));
-    }
-
-    IEnumerator ScheduleTask(float seconds)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(seconds); // Wait for 30 seconds
-            StartTask(); // Call the StartTask method
-        }
+        StartTask();
     }
 
     public void StartTask(){
@@ -74,7 +63,7 @@ public class PhoneCallTask : MonoBehaviour
             audioSource.Play();
         }else
         {
-            Debug.LogError("Ring sound clip is not assigned!");
+           UnityEngine.Debug.LogError("Ring sound clip is not assigned!");
         }
     }
 
@@ -89,7 +78,6 @@ public class PhoneCallTask : MonoBehaviour
     {
         isCallPickedUp = true;
         isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
-
         if (isCallSpam)
         {
             currentCallClip = spamCallClips[Random.Range(0, spamCallClips.Length)];
@@ -98,7 +86,6 @@ public class PhoneCallTask : MonoBehaviour
         {
             currentCallClip = realCallClips[Random.Range(0, realCallClips.Length)];
         }
-        
         // Play the current call clip using the attached AudioSource
         audioSource.clip = currentCallClip;
         audioSource.loop = false;
@@ -107,7 +94,7 @@ public class PhoneCallTask : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("On trigger enter triggered");
+       UnityEngine.Debug.Log("On trigger enter triggered");
         if(waitingForReturn && other == hangUpCollider){
             StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { 
                 ResetPhone();
@@ -155,10 +142,26 @@ public class PhoneCallTask : MonoBehaviour
 
     private void ResetPhone()
     {
-        transform.position = originalPosition;
-        isRinging = true;
-        isCallPickedUp = false;
+       EndGame();
     }
+
+    void EndGame()
+    {
+        UnityEngine.Debug.Log("ENDING PHONE TASK!");
+        // Find the TaskSelection game object
+        TaskSelection taskSelection = GameObject.FindObjectOfType<TaskSelection>();
+        // Check if TaskSelection was found
+        if (taskSelection != null)
+        {
+            // Call EndTask on the TaskSelection object
+            taskSelection.EndTask(gameObject, accuracy);
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("TaskSelection object not found!");
+        }
+    }
+        
 
     private IEnumerator PlayAudioClipAndWait(AudioClip clip, System.Action callback)
     {
@@ -172,12 +175,10 @@ public class PhoneCallTask : MonoBehaviour
 
     private void SetPhoneMetrics()
     {
-        float accuracy = 1.0f;
         if (attempts != 0)
         {
-            accuracy = (correct / attempts);
+            accuracy = Mathf.Round((correct / attempts) * 100);
         }
-        accuracy = Mathf.Round(accuracy * 100);
         phoneMetrics.text = "Phone Call Task:\n" +
             "Answer calls as they come in before they go to voicemail! Hang up the phone if the call seems like spam, otherwise forward it with the green button.\n\n" +
             "Accuracy: " + accuracy.ToString("0.00"); // Format accuracy to display two decimal places
