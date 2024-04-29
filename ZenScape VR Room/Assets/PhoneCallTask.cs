@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 using TMPro;
@@ -23,7 +24,6 @@ public class PhoneCallTask : MonoBehaviour
     private int correct = 0;
     private float accuracy = 1.0f;
     private bool waitingForReturn = false;
-    public GameObject taskMainObj;
 
     private void Start()
     {
@@ -76,14 +76,14 @@ public class PhoneCallTask : MonoBehaviour
     private void PickUpPhone()
     {
         isCallPickedUp = true;
-        isCallSpam = Random.value < 0.5f; // Randomly determine if the call is spam
+        isCallSpam = UnityEngine.Random.value < 0.5f; // Randomly determine if the call is spam
         if (isCallSpam)
         {
-            currentCallClip = spamCallClips[Random.Range(0, spamCallClips.Length)];
+            currentCallClip = spamCallClips[ UnityEngine.Random.Range(0, spamCallClips.Length)];
         }
         else
         {
-            currentCallClip = realCallClips[Random.Range(0, realCallClips.Length)];
+            currentCallClip = realCallClips[ UnityEngine.Random.Range(0, realCallClips.Length)];
         }
         // Play the current call clip using the attached AudioSource
         audioSource.clip = currentCallClip;
@@ -94,16 +94,18 @@ public class PhoneCallTask : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
        UnityEngine.Debug.Log("On trigger enter triggered");
-        if(waitingForReturn && other == hangUpCollider){
-            StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { 
-                ResetPhone();
-                waitingForReturn = false;
-            }));
-        }
-        else if (other == hangUpCollider)
-        {
-            StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { HandleAction(true);}));
-        }
+       if(!isRinging){
+            if(waitingForReturn && other == hangUpCollider){
+                StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { 
+                    ResetPhone();
+                    waitingForReturn = false;
+                }));
+            }
+            else if (other == hangUpCollider)
+            {
+                StartCoroutine(PlayAudioClipAndWait(pickUpSound, () => { HandleAction(true);}));
+            }
+       }
     }
 
     public void HandleAction(bool hungUp)
@@ -152,8 +154,9 @@ public class PhoneCallTask : MonoBehaviour
         // Check if TaskSelection was found
         if (taskSelection != null)
         {
-            // Call EndTask on the TaskSelection object
-            taskSelection.EndTask(taskMainObj, accuracy);
+            GameObject obj = this.transform.parent.gameObject;
+            UnityEngine.Debug.Log("PHONE PARNET OBJ: " + obj.name);
+            taskSelection.EndTask(obj, accuracy);
         }
         else
         {
