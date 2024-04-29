@@ -15,6 +15,10 @@ public class SortingGameManager : MonoBehaviour
     private int attempts;
     private float accuracy = 1f;
     public TextMeshPro metrics;
+
+
+    public GameObject mainObject;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();

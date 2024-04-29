@@ -25,6 +25,8 @@ public class PhoneCallTask : MonoBehaviour
     private float accuracy = 1.0f;
     private bool waitingForReturn = false;
 
+    public PhoneTaskParent taskParent;
+
     private void Start()
     {
         originalPosition = transform.position;
@@ -143,28 +145,9 @@ public class PhoneCallTask : MonoBehaviour
 
     private void ResetPhone()
     {
-       EndGame();
+       taskParent.EndGame(accuracy);
     }
-
-    void EndGame()
-    {
-        UnityEngine.Debug.Log("ENDING PHONE TASK!");
-        // Find the TaskSelection game object
-        TaskSelection taskSelection = GameObject.FindObjectOfType<TaskSelection>();
-        // Check if TaskSelection was found
-        if (taskSelection != null)
-        {
-            GameObject obj = this.transform.parent.gameObject;
-            UnityEngine.Debug.Log("PHONE PARNET OBJ: " + obj.name);
-            taskSelection.EndTask(obj, accuracy);
-        }
-        else
-        {
-            UnityEngine.Debug.LogError("TaskSelection object not found!");
-        }
-    }
-        
-
+    
     private IEnumerator PlayAudioClipAndWait(AudioClip clip, System.Action callback)
     {
         audioSource.loop = false;
