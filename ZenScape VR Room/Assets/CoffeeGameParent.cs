@@ -8,7 +8,7 @@ public class CoffeeGameParent : MonoBehaviour
     public TextMeshPro CoffeeMetrics;
     public void MetricsAndEndGame(int coffeesDrank){
         UnityEngine.Debug.Log("Updating Coffee Metrics From Parent!");
-        float accuracy = (coffeesDrank / 1f) * 100;
+        float accuracy = (coffeesDrank / 1f);
         CoffeeMetrics.text = "Coffees Drank Correctly: " + coffeesDrank;
         EndGame(accuracy);
     }

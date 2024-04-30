@@ -164,7 +164,7 @@ public class PhoneCallTask : MonoBehaviour
     {
         if (attempts != 0)
         {
-            accuracy = Mathf.Round((correct / attempts) * 100);
+            accuracy = Mathf.Round(correct / attempts);
         }
         phoneMetrics.text = "Phone Call Task:\n" +
             "Answer calls as they come in before they go to voicemail! Hang up the phone if the call seems like spam, otherwise forward it with the green button.\n\n" +

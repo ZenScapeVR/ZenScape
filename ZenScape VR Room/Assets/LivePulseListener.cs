@@ -10,6 +10,7 @@ public class LivePulseListener : MonoBehaviour
    private string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/";
    private string activeFirebaseRef = "active_user";
    private string loggedInFirebaseRef = "zenscape_users";
+   public int day = 0; // used to determine what day to push to! 0 is for lobby or other scenes
 
     [System.Serializable]
     public class ActiveUserData

@@ -8,6 +8,7 @@ using TMPro;
 
 public class TaskSelection : MonoBehaviour
 {
+    public DayManager manager;
     public AudioClip newTaskAlert; // Audio clip to play when a new task is assigned
     public int Day = 1;
     public bool AllTasksComplete = false;
@@ -19,6 +20,12 @@ public class TaskSelection : MonoBehaviour
     public GameObject[] Tasks; // all tasks available throughout entire game
     private GameObject[] liveTasks; // all tasks currently active for the user
     private GameObject[] availableTasks; // all tasks NOT TAKEN or ENDED
+    private List<float> coffeeAccuraciesList = new List<float>();
+    private List<float> phoneAccuraciesList = new List<float>();
+    private List<float> sortAccuraciesList = new List<float>();
+    private float coffeeAccuracy = 1f;
+    private float phoneAccuracy = 1f;
+    private float sortAccuracy = 1f;
 
     void Start()
     {
@@ -133,20 +140,21 @@ void SpawnTask()
         if (tempTaskName.EndsWith("(Clone)"))
         {
             // If it does, remove "(Clone)" from the end of the name
-            UnityEngine.Debug.Log("Removing task clone substring");
+            // UnityEngine.Debug.Log("Removing task clone substring");
             tempTaskName = tempTaskName.Substring(0, tempTaskName.Length - 7);
         }
-        UnityEngine.Debug.Log("End task called with game: " + tempTaskName + " and " + accuracy);
+        // UnityEngine.Debug.Log("End task called with game: " + tempTaskName + " and " + accuracy);
+        AddAccuracy(tempTaskName, accuracy);
         
         foreach(GameObject task in Tasks){
             if(tempTaskName == task.name){
-                UnityEngine.Debug.Log("FOUND MATCHING TASK NAME!");
+                // need to implement a task complete sound...
                 // Remove the task from liveTasks
                 List<GameObject> tempList = new List<GameObject>(liveTasks);
                 tempList.Remove(task);
                 liveTasks = tempList.ToArray();
                 // Add the task back to availableTasks
-                  UnityEngine.Debug.Log("Adding: " + task.name + " back to available tasks.");
+                UnityEngine.Debug.Log("Adding: " + task.name + " back to available tasks.");
                 List<GameObject> tempList2 = new List<GameObject>(availableTasks);
                 tempList2.Add(task);
                 availableTasks = tempList2.ToArray();
@@ -163,10 +171,45 @@ void SpawnTask()
         }
     }
 
+    private void AddAccuracy(string tempTaskName, float accuracy)
+    {
+        switch (tempTaskName)
+        {
+            case "Coffee Game":
+                coffeeAccuraciesList.Add(accuracy);
+                coffeeAccuracy = CalculateAverage(coffeeAccuraciesList);
+                break;
+            case "PhoneTask":
+                phoneAccuraciesList.Add(accuracy);
+                phoneAccuracy = CalculateAverage(phoneAccuraciesList);
+                break;
+            case "Sorting Game":
+                sortAccuraciesList.Add(accuracy);
+                sortAccuracy = CalculateAverage(sortAccuraciesList);
+                break;
+            default:
+                UnityEngine.Debug.LogError("Unknown task name: " + tempTaskName);
+                break;
+        }
+    }
+    private float CalculateAverage(List<float> accuracies)
+    {
+        if (accuracies.Count == 0)
+            return 0f;
+
+        float sum = 0f;
+        foreach (float accuracy in accuracies)
+        {
+            sum += accuracy;
+        }
+        return sum / accuracies.Count;
+    }
 
     public void EndDay(){
+
         UnityEngine.Debug.Log("All tasks completed, day over!");
         UpdateDisplay();
+        manager.EndDayDatabaseUpdate(phoneAccuracy, coffeeAccuracy, sortAccuracy);
         // when the day is over, we need to record the accuracy metrics into firebase.
     }
 }
