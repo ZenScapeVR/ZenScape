@@ -32,7 +32,7 @@ def read_active_user_id():
 def read_pulse_history():
     active_user_id = read_active_user_id()
     if active_user_id:
-        ref = db.reference('zenscape_users/' + active_user_id + '/pulse_history')
+        ref = db.reference('zenscape_users/' + str(active_user_id) + '/pulse_history')
         return ref.get() or []
     return []
 
@@ -41,32 +41,54 @@ def update_pulse_history(pulse):
     active_user_id = read_active_user_id()
     if active_user_id:
         pulse_history = read_pulse_history()
+        
+      # Check if pulse_history is an empty string or not a list
+        if isinstance(pulse_history, str):
+            pulse_history = []
+
         pulse_history.append(pulse)
-        ref = db.reference('zenscape_users/' + active_user_id + '/pulse_history')
+        ref = db.reference('zenscape_users/' +  str(active_user_id) + '/pulse_history')
         ref.set(pulse_history)
 
 # Function to calculate average pulse from pulse history for the active user
 def calculate_average_pulse():
     pulse_history = read_pulse_history()
-    if pulse_history:
+    if pulse_history and all(isinstance(x, int) for x in pulse_history):
         total_pulse = sum(pulse_history)
         average_pulse = round(total_pulse / len(pulse_history))
         return average_pulse
     return None
-
 # Function to push pulse to the active user in Realtime Database
 def push_pulse_to_active_user(pulse):
     active_user_id = read_active_user_id()
     if active_user_id:
-        ref = db.reference('zenscape_users/' + active_user_id + '/live_pulse')
+        ref = db.reference('zenscape_users/' + str(active_user_id)+ '/live_pulse')
         ref.set(pulse)
 
 # Function to push average pulse to the active user in Realtime Database
+
 def push_avg_pulse_to_active_user(pulse):
+    # Ensure pulse is an integer or float
+    if not isinstance(pulse, (int, float)):
+        print("Warning: Pulse must be an integer or float")
+        return
+    # Ensure pulse is not None
+    if pulse is None:
+        print("Warning: Pulse cannot be None")
+        return
     active_user_id = read_active_user_id()
-    if active_user_id:
-        ref = db.reference('zenscape_users/' + active_user_id + '/avg_pulse')
+    if active_user_id is None:
+        print("Warning: Active user ID cannot be None")
+        return
+    ref_path = 'zenscape_users/' + str(active_user_id) + '/avg_pulse'
+    try:
+        # Get database reference
+        ref = db.reference(ref_path)
+        # Update average pulse
         ref.set(pulse)
+        print("Average pulse updated successfully for user:", str(active_user_id))
+    except Exception as e:
+        print("Failed to update average pulse:", e)
 
 # Function to watch the log file and push data to Firebase
 def watch_and_push_data():

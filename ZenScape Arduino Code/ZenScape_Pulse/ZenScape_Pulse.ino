@@ -10,7 +10,7 @@ unsigned long previousMillis = 0;    // Variable to store the time when BPM was 
 const long interval = 100;          // Interval between sending BPM data (milliseconds)
 
 const int MIN_HEART_RATE = 40;
-const int MAX_HEART_RATE = 200;
+const int MAX_HEART_RATE = 150;
 
 void setup() {
   Serial.begin(9600);
