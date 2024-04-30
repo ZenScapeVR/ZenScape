@@ -92,22 +92,32 @@ public class UserMetricsDisplay : MonoBehaviour
                 // Retrieve and display baseline heart rate
                 int baselineHeartRate = userObject["baseline_heart_rate"] != null ? userObject["baseline_heart_rate"].Value<int>() : 0;
                 displayText.text += "Baseline Heart Rate: " + baselineHeartRate + "\n";
-
                 // Retrieve and display live pulse
                 int livePulse = userObject["live_pulse"] != null ? userObject["live_pulse"].Value<int>() : 0;
                 displayText.text += "Live Pulse: " + livePulse + "\n";
-
                 // Retrieve and display metrics of day 1, 2, and 3
                 for (int i = 1; i <= 3; i++)
                 {
                     JToken metrics = userObject["metrics"];
                     if (metrics != null)
                     {
-                        JToken dayMetrics = metrics[i.ToString()];
+                        JToken dayMetrics = metrics[i];
                         if (dayMetrics != null)
                         {
                             int avgPulse = dayMetrics["avg_pulse"] != null ? dayMetrics["avg_pulse"].Value<int>() : 0;
                             displayText.text += "Day " + i + " Avg Pulse: " + avgPulse + "\n";
+
+                            int coffee = dayMetrics["coffee"] != null ? dayMetrics["coffee"].Value<int>() : 0;
+                            displayText.text += "Day " + i + " Coffee Task Accuracy: " + coffee + "\n";
+
+                            int phone = dayMetrics["phone"] != null ? dayMetrics["phone"].Value<int>() : 0;
+                            displayText.text += "Day " + i + " Phone Task Accuracy: " + phone + "\n";
+
+                            int sort = dayMetrics["sort"] != null ? dayMetrics["sort"].Value<int>() : 0;
+                            displayText.text += "Day " + i + " Sorting Task Accuracy: " + sort + "\n";
+
+                            int overall = dayMetrics["overall"] != null ? dayMetrics["overall"].Value<int>() : 0;
+                            displayText.text += "Day " + i + " Overall Accuracy: " + overall + "\n";
                         }
                     }
                 }
