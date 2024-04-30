@@ -16138,6 +16138,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1807684942826737051, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+      propertyPath: Priority
+      value: 152
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807684942826737051, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1807684943321455449, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
       propertyPath: m_Volume
       value: 0.54
