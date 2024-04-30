@@ -42,9 +42,6 @@ public class CreateUserButton : MonoBehaviour
             presser = other.gameObject;
             button.transform.Translate(Vector3.down * 0.015f); // Adjust the button press depth as needed
             onPress.Invoke();
-            PlaySound(); // Play a click sound
-
-            // Add a new user
             StartCoroutine(AddNewUser());
         }
     }
@@ -96,16 +93,20 @@ public class CreateUserButton : MonoBehaviour
                 JArray jsonArray = JArray.Parse(jsonResponse);
                 // Add a new user entry
                 JObject newUser = new JObject();
-                newUser["avg_pulse"] = "100"; // Example data
+                newUser["avg_pulse"] = "0"; // Example data
                 newUser["baseline"] = 80; // Example data
-                newUser["live_pulse"] = "90"; // Example data
-
+                newUser["live_pulse"] = "0"; // Example data
                 JArray metricsArray = new JArray();
-                JObject metric1 = new JObject();
-                metric1["accuracy"] = 95; // Example data
-                metric1["avg_pulse"] = 85; // Example data
-                metricsArray.Add(metric1);
-                // Add more metrics as needed
+                JObject metric0 = new JObject();
+                metric0["coffee"] = "Not recorded"; // Example data
+                metric0["overall"] = "Not recorded"; // Example data
+                metric0["phone"] = "Not recorded"; // Example data
+                metric0["sort"] = "Not recorded"; // Example data
+                metric0["avg_pulse"] = 0; // Example data
+                metricsArray.Add(metric0);
+                metricsArray.Add(metric0);
+                metricsArray.Add(metric0);
+                metricsArray.Add(metric0);
 
                 newUser["metrics"] = metricsArray;
 

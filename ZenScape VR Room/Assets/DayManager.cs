@@ -15,7 +15,7 @@ public class DayManager : MonoBehaviour
     public string firebaseURL = "https://zenscape-b6d91-default-rtdb.firebaseio.com/";
     public string activeFirebaseRef = "active_user";
     public string loggedInFirebaseRef = "zenscape_users";
-    private ActiveUserData activeUser;
+    public ActiveUserData activeUser;
     public LobbyPortal portal;
 
     [System.Serializable]
@@ -46,9 +46,31 @@ public class DayManager : MonoBehaviour
         portal.EnablePortal();
     }
 
+    IEnumerator ParseActiveUser()
+    {
+        string activeUserUrl = firebaseURL + "/" + activeFirebaseRef + ".json";
+        using (UnityWebRequest activeUserRequest = UnityWebRequest.Get(activeUserUrl))
+        {
+            yield return activeUserRequest.SendWebRequest();
+
+            if (activeUserRequest.result == UnityWebRequest.Result.Success)
+            {
+                string activeUserJson = activeUserRequest.downloadHandler.text;
+                yield return ParseActiveUserId(activeUserJson);
+            }
+            else
+            {
+                Debug.LogError("Error fetching active_user: " + activeUserRequest.error);
+                yield return null;
+            }
+        }
+    }
+
     IEnumerator EndDayRoutine(float phone, float coffee, float sort)
     {
         UnityEngine.Debug.Log("Adding metrics to firebase with coffee: " + coffee + " phone: " + phone + " and sort: " + sort);
+        yield return StartCoroutine(ParseActiveUser()); // Start coroutine to parse active user
+        UnityEngine.Debug.Log(activeUser);
         string activeUserId = activeUser.userId;
         if (!string.IsNullOrEmpty(activeUserId))
         {
@@ -61,33 +83,41 @@ public class DayManager : MonoBehaviour
                 if (zenscapeUsersRequest.result == UnityWebRequest.Result.Success)
                 {
                     string zenscapeUserJson = zenscapeUsersRequest.downloadHandler.text;
-                    JObject userObject = JObject.Parse(zenscapeUserJson);
-
-                    if (userObject != null)
+                    
+                    try
                     {
-                        // Retrieve average pulse from user's data
-                        int avgPulse = userObject["avg_pulse"] != null ? userObject["avg_pulse"].Value<int>() : 0;
-                        // Update user's data for the current day
-                        userObject["metrics"][day]["avg_pulse"] = avgPulse;
-                        // add coffee accuracy 
-                        userObject["metrics"][day]["coffee"] = coffee;
-                        // add phone accuracy 
-                        userObject["metrics"][day]["phone"] = phone;
-                        // add sort accuracy 
-                        userObject["metrics"][day]["sort"] = sort;
-                        // add overall accuracy 
-                        userObject["metrics"][day]["overall"] = (sort + coffee + phone) / 3;
+                        JObject userObject = JObject.Parse(zenscapeUserJson);
 
-                        // Convert the updated JSON back to string
-                        string updatedJsonData = userObject.ToString();
-                        // Update user's data in Firebase
-                        string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + "/" + activeUserId + ".json";
-                        byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(updatedJsonData);
-                        StartCoroutine(UpdateUserData(updateUrl, jsonDataBytes));
+                        if (userObject != null)
+                        {
+                            // Retrieve average pulse from user's data
+                            int avgPulse = userObject["avg_pulse"] != null ? userObject["avg_pulse"].Value<int>() : 0;
+                            // Update user's data for the current day
+                            userObject["metrics"][day]["avg_pulse"] = avgPulse;
+                            // add coffee accuracy 
+                            userObject["metrics"][day]["coffee"] = coffee;
+                            // add phone accuracy 
+                            userObject["metrics"][day]["phone"] = phone;
+                            // add sort accuracy 
+                            userObject["metrics"][day]["sort"] = sort;
+                            // add overall accuracy 
+                            userObject["metrics"][day]["overall"] = (sort + coffee + phone) / 3;
+
+                            // Convert the updated JSON back to string
+                            string updatedJsonData = userObject.ToString();
+                            // Update user's data in Firebase
+                            string updateUrl = firebaseURL + "/" + loggedInFirebaseRef + "/" + activeUserId + ".json";
+                            byte[] jsonDataBytes = System.Text.Encoding.UTF8.GetBytes(updatedJsonData);
+                            StartCoroutine(UpdateUserData(updateUrl, jsonDataBytes));
+                        }
+                        else
+                        {
+                            Debug.LogError("Error parsing zenscape user data. userobj null");
+                        }
                     }
-                    else
+                    catch (System.Exception e)
                     {
-                        Debug.LogError("Error parsing zenscape user data.");
+                        Debug.LogError("Error parsing zenscape user data: " + e.Message);
                     }
                 }
                 else
@@ -101,6 +131,7 @@ public class DayManager : MonoBehaviour
             Debug.LogError("Active user's userId is invalid.");
         }
     }
+
 
     IEnumerator ClearUserPulseHistory()
     {

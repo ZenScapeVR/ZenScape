@@ -92,12 +92,8 @@ public class UserMetricsDisplay : MonoBehaviour
                 // Retrieve and display baseline heart rate
                 int baselineHeartRate = userObject["baseline_heart_rate"] != null ? userObject["baseline_heart_rate"].Value<int>() : 0;
                 displayText.text += "Baseline Heart Rate: " + baselineHeartRate + "\n";
-                // Retrieve and display live pulse
-                int livePulse = userObject["live_pulse"] != null ? userObject["live_pulse"].Value<int>() : 0;
-                displayText.text += "Live Pulse: " + livePulse + "\n";
                 // Retrieve and display metrics of day 1, 2, and 3
                 JArray metrics = userObject["metrics"] as JArray;
-
                 UnityEngine.Debug.Log(metrics);
 
                 if (metrics != null)
