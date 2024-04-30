@@ -12,9 +12,11 @@ public class CoffeeMugProperties : MonoBehaviour
     public ZenscapeTimer timer;
     public int status = 0;
 
+    public GameObject coffeeFill; // Reference to the coffee fill GameObject
+
     void Start()
     {
-
+        coffeeFill.SetActive(false);
     }
 
     private void Update()
@@ -66,6 +68,8 @@ public class CoffeeMugProperties : MonoBehaviour
     public void PourCoffee()
     {
         // change color and boolean
+        // enable the CoffeeFill Child and also the child of CoffeeFilll (a particle system)
+        coffeeFill.SetActive(true);
         Renderer renderer = gameObject.GetComponent<Renderer>();
         if (gameObject.GetComponent<Renderer>() == null)
         {
