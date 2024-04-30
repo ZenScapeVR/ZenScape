@@ -2894,6 +2894,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Alarm (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1712130772681075967, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 24d9cfcbcae9483459765cd3b7b8e954, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
 --- !u!114 &816191364 stripped
@@ -5161,6 +5165,24 @@ CapsuleCollider:
   m_Height: 3.7753172
   m_Direction: 1
   m_Center: {x: 0, y: 1.9825402, z: 0}
+--- !u!1 &1256891494 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1807684942826737047, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+  m_PrefabInstance: {fileID: 1807684941794472658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1256891498
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256891494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17257059
+  m_Center: {x: 0, y: -0.04190564, z: 0}
 --- !u!4 &1282189381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5059440518419336803, guid: 51c07d60274ac13489e2a61ff62c251b, type: 3}
@@ -5419,6 +5441,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Alarm (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1712130772681075967, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 24d9cfcbcae9483459765cd3b7b8e954, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
 --- !u!114 &1376792032 stripped
@@ -15798,6 +15824,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire_Alarm
       objectReference: {fileID: 0}
+    - target: {fileID: 1712130772681075967, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 24d9cfcbcae9483459765cd3b7b8e954, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40d84cac90721304190ea2b0855a7f75, type: 3}
 --- !u!114 &1712130772707285704 stripped
@@ -16108,6 +16138,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1807684943321455449, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+      propertyPath: m_Volume
+      value: 0.54
+      objectReference: {fileID: 0}
     - target: {fileID: 1807684943833540189, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
       propertyPath: m_Camera
       value: 
@@ -16160,7 +16194,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Rig
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1807684942826737045, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
 --- !u!4 &1815016060408600434
 Transform:
