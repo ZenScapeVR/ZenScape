@@ -96,27 +96,32 @@ public class UserMetricsDisplay : MonoBehaviour
                 int livePulse = userObject["live_pulse"] != null ? userObject["live_pulse"].Value<int>() : 0;
                 displayText.text += "Live Pulse: " + livePulse + "\n";
                 // Retrieve and display metrics of day 1, 2, and 3
-                for (int i = 1; i <= 3; i++)
+                JArray metrics = userObject["metrics"] as JArray;
+
+                UnityEngine.Debug.Log(metrics);
+
+                if (metrics != null)
                 {
-                    JToken metrics = userObject["metrics"];
-                    if (metrics != null)
+                    int numberOfDays = metrics.Count; // Get the number of days' metrics available
+                    int maxDaysToDisplay = Mathf.Min(numberOfDays, 3); // Determine the maximum number of days to display
+                    for (int i = 1; i <= maxDaysToDisplay; i++)
                     {
                         JToken dayMetrics = metrics[i];
                         if (dayMetrics != null)
                         {
-                            int avgPulse = dayMetrics["avg_pulse"] != null ? dayMetrics["avg_pulse"].Value<int>() : 0;
+                            float avgPulse = dayMetrics["avg_pulse"] != null ? dayMetrics["avg_pulse"].Value<float>() : 0f;
                             displayText.text += "Day " + i + " Avg Pulse: " + avgPulse + "\n";
 
-                            int coffee = dayMetrics["coffee"] != null ? dayMetrics["coffee"].Value<int>() : 0;
+                            float coffee = dayMetrics["coffee"] != null ? dayMetrics["coffee"].Value<float>() : 0f;
                             displayText.text += "Day " + i + " Coffee Task Accuracy: " + coffee + "\n";
 
-                            int phone = dayMetrics["phone"] != null ? dayMetrics["phone"].Value<int>() : 0;
+                            float phone = dayMetrics["phone"] != null ? dayMetrics["phone"].Value<float>() : 0f;
                             displayText.text += "Day " + i + " Phone Task Accuracy: " + phone + "\n";
 
-                            int sort = dayMetrics["sort"] != null ? dayMetrics["sort"].Value<int>() : 0;
+                            float sort = dayMetrics["sort"] != null ? dayMetrics["sort"].Value<float>() : 0f;
                             displayText.text += "Day " + i + " Sorting Task Accuracy: " + sort + "\n";
 
-                            int overall = dayMetrics["overall"] != null ? dayMetrics["overall"].Value<int>() : 0;
+                            float overall = dayMetrics["overall"] != null ? dayMetrics["overall"].Value<float>() : 0f;
                             displayText.text += "Day " + i + " Overall Accuracy: " + overall + "\n";
                         }
                     }
