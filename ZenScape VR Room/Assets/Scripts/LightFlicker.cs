@@ -13,7 +13,7 @@ public class LightFlicker : MonoBehaviour
     private void Start()
     {
         finalCount = 750;
-        StartEvent();
+        //StartEvent();
     }
 
     void Update()

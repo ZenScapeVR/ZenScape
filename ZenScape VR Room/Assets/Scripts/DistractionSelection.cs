@@ -23,6 +23,7 @@ public class DistractionSelection : MonoBehaviour
     //public GameObject MonitorStatic;
     [SerializeField] private TVStaticManager TVStatic;
     //public GameObject Ambulance;
+    [SerializeField] private RecordPlayerScript RecordPlayer;
     [SerializeField] private  AmbulanceDistraction AmbulanceScript;
     // high
     //public GameObject HeartBeat;
@@ -30,6 +31,9 @@ public class DistractionSelection : MonoBehaviour
     //public GameObject FireAlarm;
     [SerializeField] private FireAlarmManager FireAlarmScript;
     //public GameObject Earthquake;
+
+    private float upperRate;
+    private float lowerRate;
 
     private enum DIFFICULTY_LEVEL
     {
@@ -41,6 +45,8 @@ public class DistractionSelection : MonoBehaviour
 
     void Start()
     {
+        upperRate = HeartRate + 14;
+        lowerRate = HeartRate - 14;
         // remove once implemented
         timer.TimeRemaining = 30;
         // comment next line out for full game
@@ -63,11 +69,11 @@ public class DistractionSelection : MonoBehaviour
         
         // may need to change values after testing, these are temporary
         // high heartrate
-        if (HeartRate >= 88) { level = DIFFICULTY_LEVEL.HARD; }
+        if (HeartRate >= upperRate) { level = DIFFICULTY_LEVEL.HARD; }
         // medium heartrate
-        if (HeartRate <= 87 && HeartRate >=  74)  { level = DIFFICULTY_LEVEL.MEDIUM; }
+        if (HeartRate < upperRate && HeartRate >  lowerRate)  { level = DIFFICULTY_LEVEL.MEDIUM; }
         // low heartrate
-        if (HeartRate <= 73 && HeartRate >= 60) { level = DIFFICULTY_LEVEL.EASY; }
+        if (HeartRate <= lowerRate) { level = DIFFICULTY_LEVEL.EASY; }
 
         SelectDistraction(level);
     }
@@ -85,10 +91,10 @@ public class DistractionSelection : MonoBehaviour
             { 3, "Fan Buzzing" },
             { 4, "Alarm Clock" },
             { 5, "Monitor Static" },
-            { 6, "Ambulance" },
+            { 6, "Record Player" },
             { 7, "Fire Alarm" },
             { 8, "Heart Beat" },
-            { 9, "Earthquake" },
+            { 9, "Ambulance" },
         };
 
         // select random task based on difficulty level
@@ -102,13 +108,13 @@ public class DistractionSelection : MonoBehaviour
                 break;
             case DIFFICULTY_LEVEL.MEDIUM:
                 // pick medium distraction
-                // { alarm clock, monitor static, crowd of people }
+                // { alarm clock, monitor static, record player }
                 selectedNum = rand.Next(4, 6);
                 selectedDistraction = distractions[selectedNum];
                 break;
             case DIFFICULTY_LEVEL.HARD:
                 // pick hard distraction
-                // { fire alarm, earthquake, heartbeat }
+                // { fire alarm, heartbeat, ambulance }
                 selectedNum = rand.Next(7, 8);
                 selectedDistraction = distractions[selectedNum];
                 break;
@@ -146,8 +152,8 @@ public class DistractionSelection : MonoBehaviour
             case "Heart Beat":
                 HeartBeatScript.StartEvent();
                 break;
-            case "Earthquake":
-                Debug.Log("EARTHQUAKE - distraction not yet implemented");
+            case "Record Player":
+                RecordPlayer.StartEvent();
                 break;
         }
     }
