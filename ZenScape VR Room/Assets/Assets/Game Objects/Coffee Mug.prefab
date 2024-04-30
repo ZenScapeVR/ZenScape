@@ -5050,6 +5050,7 @@ MonoBehaviour:
   Grey: {fileID: 2100000, guid: 284c0adf047530442a7e23b4365615aa, type: 2}
   timer: {fileID: 1832018527069773946}
   status: 0
+  coffeeFill: {fileID: 5035665378477617850}
 --- !u!114 &3691382073983169389
 MonoBehaviour:
   m_ObjectHideFlags: 0
