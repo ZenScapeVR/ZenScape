@@ -16,6 +16,7 @@ public class DayManager : MonoBehaviour
     public string activeFirebaseRef = "active_user";
     public string loggedInFirebaseRef = "zenscape_users";
     private ActiveUserData activeUser;
+    public LobbyPortal portal;
 
     [System.Serializable]
     public class ActiveUserData
@@ -42,6 +43,7 @@ public class DayManager : MonoBehaviour
 
     public void EndDayDatabaseUpdate(float phone, float coffee, float sort){
         StartCoroutine(EndDayRoutine(phone, coffee, sort));
+        portal.EnablePortal();
     }
 
     IEnumerator EndDayRoutine(float phone, float coffee, float sort)

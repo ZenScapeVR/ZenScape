@@ -10,6 +10,7 @@ public class TaskSelection : MonoBehaviour
 {
     public DayManager manager;
     public AudioClip newTaskAlert; // Audio clip to play when a new task is assigned
+    public AudioClip taskFinishedAlert;
     public int Day = 1;
     public bool AllTasksComplete = false;
     public int timerLength;
@@ -26,6 +27,8 @@ public class TaskSelection : MonoBehaviour
     private float coffeeAccuracy = 1f;
     private float phoneAccuracy = 1f;
     private float sortAccuracy = 1f;
+    public float minTaskGapTime = 20f;
+    public float maxTaskGapTime = 25f;
 
     void Start()
     {
@@ -47,10 +50,8 @@ public class TaskSelection : MonoBehaviour
 {
     while (!AllTasksComplete)
     {
-        // Generate a random time between tasks
-        float timeBetweenTasks = Random.Range(10f, 15f);
+        float timeBetweenTasks = Random.Range(15f, 20f);
         yield return new WaitForSeconds(timeBetweenTasks);
-        UnityEngine.Debug.Log("Task Spawn waiting for " + timeBetweenTasks + " seconds...");
         // Spawn a task
         ShuffleAvailableTasks();
         SpawnTask();
@@ -123,10 +124,9 @@ void SpawnTask()
     public void UpdateDisplay(){
 
         if(AllTasksComplete){
-            display.text =  "\tAll Tasks Complete! Great Job!"; 
+            display.text =  "\tAll Tasks Complete!\n\t Exit the office\n\t" +  "to end the day."; 
         }else{
-            display.text =  "\tTime Left: " +  timer.TimeRemaining
-            +   "\n\tTasks To Do:\n\t";
+            display.text =  "\tTasks To Do:\n\t";
             foreach( GameObject task in liveTasks){
                 display.text += "- " + task.name + "\n\t";
             }
@@ -135,6 +135,11 @@ void SpawnTask()
 
     public void EndTask(GameObject taskObject, float accuracy)
     {
+        StartCoroutine(EndTaskCoroutine(taskObject, accuracy));
+    }
+
+    private IEnumerator EndTaskCoroutine(GameObject taskObject, float accuracy)
+        {
         string tempTaskName = taskObject.name;
         // Check if the task name ends with "(Clone)"
         if (tempTaskName.EndsWith("(Clone)"))
@@ -150,10 +155,20 @@ void SpawnTask()
             if(tempTaskName == task.name){
                 // need to implement a task complete sound...
                 // Remove the task from liveTasks
+
+                if (taskFinishedAlert != null)
+                {
+                    AudioSource audioSource = GetComponent<AudioSource>();
+                    audioSource.PlayOneShot(taskFinishedAlert);
+                    UnityEngine.Debug.Log("Played taskFinishedAlert audio clip.");
+                    yield return new WaitForSeconds(taskFinishedAlert.length);
+                }
+
                 List<GameObject> tempList = new List<GameObject>(liveTasks);
                 tempList.Remove(task);
                 liveTasks = tempList.ToArray();
                 // Add the task back to availableTasks
+
                 UnityEngine.Debug.Log("Adding: " + task.name + " back to available tasks.");
                 List<GameObject> tempList2 = new List<GameObject>(availableTasks);
                 tempList2.Add(task);
