@@ -113,16 +113,16 @@ public class UserMetricsDisplay : MonoBehaviour
                             displayText.text += "Day " + i + " Avg Pulse: " + avgPulse + "\n";
 
                             float coffee = dayMetrics["coffee"] != null ? dayMetrics["coffee"].Value<float>() : 0f;
-                            displayText.text += "Day " + i + " Coffee Task Accuracy: " + coffee + "\n";
+                            displayText.text += "Day " + i + " Coffee Task Accuracy: " + coffee.ToString("P1") + "\n";
 
                             float phone = dayMetrics["phone"] != null ? dayMetrics["phone"].Value<float>() : 0f;
-                            displayText.text += "Day " + i + " Phone Task Accuracy: " + phone + "\n";
+                            displayText.text += "Day " + i + " Phone Task Accuracy: " + phone.ToString("P1") + "\n";
 
                             float sort = dayMetrics["sort"] != null ? dayMetrics["sort"].Value<float>() : 0f;
-                            displayText.text += "Day " + i + " Sorting Task Accuracy: " + sort + "\n";
+                            displayText.text += "Day " + i + " Sorting Task Accuracy: " + sort.ToString("P1") + "\n";
 
                             float overall = dayMetrics["overall"] != null ? dayMetrics["overall"].Value<float>() : 0f;
-                            displayText.text += "Day " + i + " Overall Accuracy: " + overall + "\n";
+                            displayText.text += "Day " + i + " Overall Accuracy: " + overall.ToString("P1") + "\n";
                         }
                     }
                 }
