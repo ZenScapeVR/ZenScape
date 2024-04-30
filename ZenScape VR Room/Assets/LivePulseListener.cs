@@ -95,7 +95,7 @@ public class LivePulseListener : MonoBehaviour
                        textMeshPro.text = livePulse.ToString();
 
                        // Log the live pulse value
-                       Debug.Log("Live Pulse: " + livePulse);
+                    //    Debug.Log("Live Pulse: " + livePulse);
                    }
                }
            }
