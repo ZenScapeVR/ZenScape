@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class DistractionSelection : MonoBehaviour
 {
+    public LivePulseListener listener;
+
+    /*
+        CALL listener.GetPublicPulse() and listener.GetPublicBaseline()
+        to get public pulse and baseline return as ints
+    */
+
+
     public int Difficulty = 0;
     public float HeartRate = 89;
     public string SelectedDistraction;
     [SerializeField] private ZenscapeTimer timer; 
-
     // low
     //public GameObject FlickeringLights;
     [SerializeField] private LightFlicker LightFlickerScript;

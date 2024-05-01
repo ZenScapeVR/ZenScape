@@ -11,6 +11,8 @@ public class LivePulseListener : MonoBehaviour
    private string activeFirebaseRef = "active_user";
    private string loggedInFirebaseRef = "zenscape_users";
    public int day = 0; // used to determine what day to push to! 0 is for lobby or other scenes
+    public int public_pulse;
+    public int public_baseline;
 
     [System.Serializable]
     public class ActiveUserData
@@ -22,6 +24,7 @@ public class LivePulseListener : MonoBehaviour
     public class UserData
     {
         public int live_pulse;
+        public int baseline;
     }
 
     // Reference to the TextMeshPro component
@@ -127,6 +130,8 @@ public class LivePulseListener : MonoBehaviour
         try
         {
             UserData userData = JsonConvert.DeserializeObject<UserData>(userDataJson);
+            public_pulse = userData.live_pulse;
+            public_baseline = userData.baseline;
             return userData.live_pulse;
         }
         catch (System.Exception e)
@@ -134,5 +139,13 @@ public class LivePulseListener : MonoBehaviour
             Debug.LogError("Error extracting live pulse from user data JSON: " + e.Message);
             return 0;
         }
+    }
+
+    public int GetPublicPulse(){
+        return public_pulse;
+    }
+
+    public int GetPublicBaseline(){
+        return public_baseline;
     }
 }
