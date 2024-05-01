@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17905562, g: 0.21854803, b: 0.27339432, a: 1}
+  m_IndirectSpecularColor: {r: 0.17905533, g: 0.21854778, b: 0.27339393, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3965,6 +3965,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2194596261931701327, guid: e8f8deb5a30624e479e669f8e64613b8, type: 3}
   m_PrefabInstance: {fileID: 1082780983}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1023820268
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.726
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.566
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.685
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774908218726939, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_Name
+      value: Coffee Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774909607053296, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_text
+      value: '
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672774909607053298, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
 --- !u!4 &1072822657 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3557653790486543205, guid: 8b55f4b13da640a458a5a4336c489584, type: 3}
@@ -5727,6 +5794,7 @@ MonoBehaviour:
   FanBuzzScript: {fileID: 2125404887}
   AlarmClockScript: {fileID: 9201478901059564504}
   TVStatic: {fileID: 849113577}
+  RecordPlayer: {fileID: 0}
   AmbulanceScript: {fileID: 1681837288833318668}
   HeartBeatScript: {fileID: 6327513196736992905}
   FireAlarmScript: {fileID: 1895351975}
@@ -9509,7 +9577,7 @@ MonoBehaviour:
   display: {fileID: 1956248528}
   numberOfTasks: 3
   Tasks:
-  - {fileID: 6505312865972218224, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
+  - {fileID: 8672774908218726939, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
   - {fileID: 1969615105817763685, guid: 929e5a8457126f7478a2e79b9980d43e, type: 3}
   - {fileID: 8861288310423103171, guid: 2dcb2515e1e7ffb4f9a4d8093917d6cb, type: 3}
   minTaskGapTime: 20
