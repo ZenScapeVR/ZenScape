@@ -1,3 +1,5 @@
+
+using System.Diagnostics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,14 +55,23 @@ public class DistractionSelection : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(WaitForBaseline());
         StartCoroutine(GetPulseEverySecond());
+    }
+
+    IEnumerator WaitForBaseline()
+    {
+        // Wait until the baseline is fetched
+        while (!listener.BaselineFetched)
+        {
+            yield return null;
+        }
+        // Once the baseline is fetched, set the baseline and other initialization logic
         baseline = listener.GetPublicBaseline();
+        UnityEngine.Debug.Log("BASELINE:" + baseline);
         upperRate = baseline + 10;
         lowerRate = baseline - 10;
-        // remove once implemented
         timer.TimeRemaining = 30;
-        // comment next line out for full game
-        // GetHeartRate();
     }
 
     void Update()
@@ -81,7 +92,7 @@ public class DistractionSelection : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError("Error getting pulse data: " + e.Message);
+                UnityEngine.Debug.LogError("Error getting pulse data: " + e.Message);
             }
 
             // Wait for one second
@@ -98,11 +109,11 @@ public class DistractionSelection : MonoBehaviour
         
         // may need to change values after testing, these are temporary
         // high heartrate
-        if (HeartRate >= upperRate) { level = DIFFICULTY_LEVEL.HARD; }
+        if (HeartRate >= upperRate) { level = DIFFICULTY_LEVEL.EASY; }
         // medium heartrate
         if (HeartRate < upperRate && HeartRate >  lowerRate)  { level = DIFFICULTY_LEVEL.MEDIUM; }
         // low heartrate
-        if (HeartRate <= lowerRate) { level = DIFFICULTY_LEVEL.EASY; }
+        if (HeartRate <= lowerRate) { level = DIFFICULTY_LEVEL.HARD; }
 
         SelectDistraction(level);
     }
@@ -154,7 +165,7 @@ public class DistractionSelection : MonoBehaviour
 
     private void StartDistraction(string distraction)
     {
-        Debug.Log($"The selected distraction is {distraction}");
+        UnityEngine.Debug.Log($"The selected distraction is {distraction}");
         switch (distraction)
         {
             case "Flickering Lights":

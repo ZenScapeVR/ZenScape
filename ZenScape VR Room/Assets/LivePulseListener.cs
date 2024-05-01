@@ -14,6 +14,8 @@ public class LivePulseListener : MonoBehaviour
     public int public_pulse;
     public int public_baseline;
 
+    public bool BaselineFetched = false;
+
     [System.Serializable]
     public class ActiveUserData
     {
@@ -132,6 +134,12 @@ public class LivePulseListener : MonoBehaviour
             UserData userData = JsonConvert.DeserializeObject<UserData>(userDataJson);
             public_pulse = userData.live_pulse;
             public_baseline = userData.baseline;
+
+            UnityEngine.Debug.Log("LIVE PULSE: " + public_pulse + " BASELINE: " + public_baseline);
+            
+            // Set the flag to indicate that the baseline has been fetched
+            BaselineFetched = true;
+
             return userData.live_pulse;
         }
         catch (System.Exception e)
