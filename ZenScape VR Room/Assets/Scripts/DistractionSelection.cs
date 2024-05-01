@@ -14,7 +14,7 @@ public class DistractionSelection : MonoBehaviour
 
 
     public int Difficulty = 0;
-    public float HeartRate = 89;
+    public float HeartRate;
     public string SelectedDistraction;
     [SerializeField] private ZenscapeTimer timer; 
     // low
@@ -41,6 +41,7 @@ public class DistractionSelection : MonoBehaviour
 
     private float upperRate;
     private float lowerRate;
+    private float baseline;
 
     private enum DIFFICULTY_LEVEL
     {
@@ -52,8 +53,10 @@ public class DistractionSelection : MonoBehaviour
 
     void Start()
     {
-        upperRate = HeartRate + 14;
-        lowerRate = HeartRate - 14;
+        StartCoroutine(GetPulseEverySecond());
+        baseline = listener.GetPublicBaseline();
+        upperRate = baseline + 10;
+        lowerRate = baseline - 10;
         // remove once implemented
         timer.TimeRemaining = 30;
         // comment next line out for full game
@@ -66,7 +69,26 @@ public class DistractionSelection : MonoBehaviour
         if (timer.TimeRemaining <= 0)
             GetHeartRate();
     }
-    
+
+    IEnumerator GetPulseEverySecond()
+    {
+        while (true)
+        {
+            try
+            {
+                // Get pulse data
+                HeartRate = listener.GetPublicPulse();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error getting pulse data: " + e.Message);
+            }
+
+            // Wait for one second
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     // select distraction
     public void GetHeartRate()
     {
