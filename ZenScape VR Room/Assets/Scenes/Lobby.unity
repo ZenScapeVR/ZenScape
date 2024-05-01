@@ -1031,7 +1031,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   click: {fileID: 8300000, guid: 5c50e8d0814451b4881474f609b45c74, type: 3}
-  sceneToLoad: Final Office
+  sceneToLoad: Day3
 --- !u!54 &768718704
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1246,7 +1246,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   click: {fileID: 8300000, guid: 5c50e8d0814451b4881474f609b45c74, type: 3}
-  sceneToLoad: Final Office
+  sceneToLoad: Day2
 --- !u!54 &814837507
 Rigidbody:
   m_ObjectHideFlags: 0

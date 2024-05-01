@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Final Office.unity
     guid: f02ed85192483404cad175c6a0e64e69
+  - enabled: 1
+    path: Assets/Scenes/Day3.unity
+    guid: def026c70b739c747b9718018455f13b
+  - enabled: 1
+    path: Assets/Scenes/Day2.unity
+    guid: e47cab5685d4294448c9700ff0d200f1
   - enabled: 0
     path: Assets/Scenes/Office Scene.unity
     guid: aee543eca5a58f549a5325ad5bd6fbbe

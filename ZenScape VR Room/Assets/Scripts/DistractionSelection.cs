@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class DistractionSelection : MonoBehaviour
 {
     public LivePulseListener listener;
@@ -13,8 +13,7 @@ public class DistractionSelection : MonoBehaviour
         CALL listener.GetPublicPulse() and listener.GetPublicBaseline()
         to get public pulse and baseline return as ints
     */
-
-
+    public TextMeshProUGUI watchText;
     public int Difficulty = 0;
     public float HeartRate;
     public string SelectedDistraction;
@@ -109,11 +108,21 @@ public class DistractionSelection : MonoBehaviour
         
         // may need to change values after testing, these are temporary
         // high heartrate
-        if (HeartRate >= upperRate) { level = DIFFICULTY_LEVEL.EASY; }
+        if (HeartRate >= upperRate) { 
+            level = DIFFICULTY_LEVEL.EASY;  
+            watchText.color =new Color32(173, 216, 230, 255); 
+        }
         // medium heartrate
-        if (HeartRate < upperRate && HeartRate >  lowerRate)  { level = DIFFICULTY_LEVEL.MEDIUM; }
+        if (HeartRate < upperRate && HeartRate >  lowerRate){ 
+            level = DIFFICULTY_LEVEL.MEDIUM; 
+            watchText.color = Color.white;
+        }
         // low heartrate
-        if (HeartRate <= lowerRate) { level = DIFFICULTY_LEVEL.HARD; }
+        if (HeartRate <= lowerRate) { 
+            level = DIFFICULTY_LEVEL.HARD;
+            watchText.color =new Color32(255, 182, 193, 255);
+
+        }
 
         SelectDistraction(level);
     }

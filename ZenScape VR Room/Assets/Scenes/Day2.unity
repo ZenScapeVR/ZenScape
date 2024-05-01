@@ -3656,7 +3656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49abae67760b72d4985217e8b241b409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  day: 1
+  day: 2
   firebaseURL: https://zenscape-b6d91-default-rtdb.firebaseio.com/
   activeFirebaseRef: active_user
   loggedInFirebaseRef: zenscape_users
@@ -9528,18 +9528,18 @@ MonoBehaviour:
   manager: {fileID: 870533870}
   newTaskAlert: {fileID: 8300000, guid: f1f3e4352cfe59a4888b370d5593e040, type: 3}
   taskFinishedAlert: {fileID: 8300000, guid: f91518e7983bcd64082b6919db30aac7, type: 3}
-  Day: 1
+  Day: 2
   AllTasksComplete: 0
   timerLength: 0
   timer: {fileID: 2100742394}
   display: {fileID: 1956248528}
-  numberOfTasks: 3
+  numberOfTasks: 5
   Tasks:
   - {fileID: 8672774908218726939, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
   - {fileID: 1969615105817763685, guid: 929e5a8457126f7478a2e79b9980d43e, type: 3}
   - {fileID: 8861288310423103171, guid: 2dcb2515e1e7ffb4f9a4d8093917d6cb, type: 3}
-  minTaskGapTime: 20
-  maxTaskGapTime: 25
+  minTaskGapTime: 18
+  maxTaskGapTime: 23
 --- !u!4 &2100742393
 Transform:
   m_ObjectHideFlags: 0
