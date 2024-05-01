@@ -5748,7 +5748,7 @@ MonoBehaviour:
   FanBuzzScript: {fileID: 2125404887}
   AlarmClockScript: {fileID: 9201478901059564504}
   TVStatic: {fileID: 849113577}
-  RecordPlayer: {fileID: 0}
+  RecordPlayer: {fileID: 2040228812}
   AmbulanceScript: {fileID: 1681837288833318668}
   HeartBeatScript: {fileID: 6327513196736992905}
   FireAlarmScript: {fileID: 1895351975}

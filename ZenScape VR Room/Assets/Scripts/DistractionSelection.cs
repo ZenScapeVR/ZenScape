@@ -42,7 +42,7 @@ public class DistractionSelection : MonoBehaviour
 
     private float upperRate;
     private float lowerRate;
-    private float baseline;
+    private float baseline = 90;
 
     private enum DIFFICULTY_LEVEL
     {
@@ -54,6 +54,7 @@ public class DistractionSelection : MonoBehaviour
 
     void Start()
     {
+        timer.TimeRemaining = 30;
         StartCoroutine(WaitForBaseline());
         StartCoroutine(GetPulseEverySecond());
     }
@@ -70,13 +71,12 @@ public class DistractionSelection : MonoBehaviour
         UnityEngine.Debug.Log("BASELINE:" + baseline);
         upperRate = baseline + 10;
         lowerRate = baseline - 10;
-        timer.TimeRemaining = 30;
     }
 
     void Update()
     {
         // check ZenscapeTimer and call GetHeartRate() at certain times
-        if (timer.TimeRemaining <= 0)
+        if (timer.TimeRemaining <= 0 && listener.BaselineFetched)
             GetHeartRate();
     }
 
@@ -110,7 +110,7 @@ public class DistractionSelection : MonoBehaviour
         // high heartrate
         if (HeartRate >= upperRate) { 
             level = DIFFICULTY_LEVEL.EASY;  
-            watchText.color =new Color32(173, 216, 230, 255); 
+            watchText.color =new Color32(255, 182, 193, 255);
         }
         // medium heartrate
         if (HeartRate < upperRate && HeartRate >  lowerRate){ 
@@ -120,8 +120,7 @@ public class DistractionSelection : MonoBehaviour
         // low heartrate
         if (HeartRate <= lowerRate) { 
             level = DIFFICULTY_LEVEL.HARD;
-            watchText.color =new Color32(255, 182, 193, 255);
-
+            watchText.color =new Color32(173, 216, 230, 255); 
         }
 
         SelectDistraction(level);

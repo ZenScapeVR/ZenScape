@@ -5748,7 +5748,7 @@ MonoBehaviour:
   FanBuzzScript: {fileID: 2125404887}
   AlarmClockScript: {fileID: 9201478901059564504}
   TVStatic: {fileID: 849113577}
-  RecordPlayer: {fileID: 0}
+  RecordPlayer: {fileID: 2040228812}
   AmbulanceScript: {fileID: 1681837288833318668}
   HeartBeatScript: {fileID: 6327513196736992905}
   FireAlarmScript: {fileID: 1895351975}
@@ -9537,7 +9537,7 @@ MonoBehaviour:
   Tasks:
   - {fileID: 8672774908218726939, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
   - {fileID: 1969615105817763685, guid: 929e5a8457126f7478a2e79b9980d43e, type: 3}
-  - {fileID: 8861288310423103171, guid: 2dcb2515e1e7ffb4f9a4d8093917d6cb, type: 3}
+  - {fileID: 8861288310423103171, guid: 0312df14a1696994b88c35d827002fe5, type: 3}
   minTaskGapTime: 17
   maxTaskGapTime: 22
 --- !u!4 &2100742393
