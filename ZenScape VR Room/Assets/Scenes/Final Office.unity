@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17905533, g: 0.21854778, b: 0.27339393, a: 1}
+  m_IndirectSpecularColor: {r: 0.17905562, g: 0.21854803, b: 0.27339432, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3506,6 +3506,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TV_Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 1195644526965492514, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
+      propertyPath: m_DirectAudioVolumes.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1195644526965492515, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3904,6 +3908,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TV_Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 1195644526965492514, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
+      propertyPath: m_DirectAudioVolumes.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1195644526965492515, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3976,73 +3984,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2194596261931701327, guid: e8f8deb5a30624e479e669f8e64613b8, type: 3}
   m_PrefabInstance: {fileID: 1082780983}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1023820268
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.726
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.566
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 9.685
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726938, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774908218726939, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_Name
-      value: Coffee Game
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774909607053296, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_text
-      value: '
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8672774909607053298, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a4eafc96a3b351740a66ba286df92da8, type: 3}
 --- !u!4 &1072822657 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3557653790486543205, guid: 8b55f4b13da640a458a5a4336c489584, type: 3}
@@ -14351,6 +14292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TV_Screen
       objectReference: {fileID: 0}
+    - target: {fileID: 1195644526965492514, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
+      propertyPath: m_DirectAudioVolumes.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1195644526965492515, guid: 37602c4d032fb7e49a14ef935da7c2ec, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -16762,6 +16707,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1807684942826737051, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
       propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807684942826737051, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807684942826737051, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807684943321455449, guid: 9546afff7faa7134bbe42a52dfc50304, type: 3}
