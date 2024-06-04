@@ -8,10 +8,7 @@
 - **[Trailer](https://youtu.be/U8CeUmOvadM)** - Just For Fun!
   
 ## MVP
-ZenScape is an immersive VR experience designed to help users train task management in a VR office space. It provides cognitive tasks amidst various sensory distractions. The difficulty of these distractions is controlled by the user's heart rate, monitored by a pulse sensor, as heart rate is a good indicator of cognitive load which directly affects task management abilities.
-
-## Implementation Vehicle
-ZenScape is implemented using Virtual Reality (VR) and Physical Computing. We utilized Unity as our game engine to create an immersive and realistic VR experience. By simulating fine motor skills and providing realistic auditory and visual feedback, users are engaged in a highly interactive environment.
+ZenScape is an immersive VR experience designed to help users train task management in a VR office space. It provides cognitive tasks amidst various sensory distractions. The difficulty of these distractions is controlled by the user's heart rate, monitored by a pulse sensor, as heart rate is a good indicator of cognitive load which directly affects task management abilities. We utilized Unity as our game engine to create an immersive and realistic VR experience. By simulating fine motor skills and providing realistic auditory and visual feedback, users are engaged in a highly interactive environment.
 
 ## VR Experience
 ZenScape’s user experience is paramount. The VR controllers mirror the user's hand movements and gestures, allowing users to pinch or grip objects. Navigation within the environment is facilitated by a character controller and locomotion system. ZenScape features six scenes:
